@@ -28,9 +28,11 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Optional;
 
+import static java.math.BigDecimal.ZERO;
 import static org.junit.jupiter.api.Assertions.*;
 import static sh.kss.finmgr.Currency.CAD;
 import static sh.kss.finmgr.InvestmentAction.DEPOSIT;
+import static sh.kss.finmgr.Symbol.EMPTY;
 
 @MicronautTest
 class FinmgrTest {
@@ -56,19 +58,20 @@ class FinmgrTest {
         assertNotNull(account.id());
 
         InvestmentTransaction transaction = investmentTransactionRepository.save(
-                new InvestmentTransaction(
-                        null,
-                        Instant.parse("2011-12-21T12:00:00.00Z"),
-                        Instant.parse("2011-12-21T12:00:00.00Z"),
-                        DEPOSIT,
-                        new Symbol(""),
-                        new BigDecimal("0"),
-                        new BigDecimal("0"),
-                        new BigDecimal("0"),
-                        new BigDecimal("0"),
-                        new BigDecimal("1500"),
-                        CAD,
-                        account));
+                InvestmentTransaction.builder()
+                        .transactionDate(Instant.parse("2011-12-21T12:00:00.00Z"))
+                        .settlementDate(Instant.parse("2011-12-21T12:00:00.00Z"))
+                        .action(DEPOSIT)
+                        .symbol(EMPTY)
+                        .description("foo")
+                        .quantity(ZERO)
+                        .price(ZERO)
+                        .gross(ZERO)
+                        .commission(ZERO)
+                        .net(new BigDecimal("1500"))
+                        .currency(CAD)
+                        .account(account)
+                        .build());
         assertEquals(1, investmentTransactionRepository.count());
         assertNotNull(transaction.id());
 

@@ -19,16 +19,22 @@
  */
 package sh.kss.finmgr;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.micronaut.data.annotation.AutoPopulated;
 import io.micronaut.data.annotation.Id;
 import io.micronaut.data.annotation.MappedEntity;
 import io.micronaut.data.annotation.Relation;
+import lombok.Builder;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.ALWAYS;
+
 @MappedEntity
+@Builder
+@JsonInclude(ALWAYS)
 public record InvestmentTransaction(
 
         @Id
@@ -38,6 +44,7 @@ public record InvestmentTransaction(
         Instant settlementDate,
         InvestmentAction action,
         Symbol symbol,
+        String description,
         BigDecimal quantity,
         BigDecimal price,
         BigDecimal gross,

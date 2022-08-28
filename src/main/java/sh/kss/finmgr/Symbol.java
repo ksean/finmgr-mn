@@ -23,4 +23,6 @@ import io.micronaut.data.annotation.TypeDef;
 import io.micronaut.data.model.DataType;
 
 @TypeDef(type = DataType.STRING, converter = SymbolConverter.class)
-public record Symbol(String value) {}
+public record Symbol(String value) {
+    public static final Symbol EMPTY = new Symbol(" ");
+}

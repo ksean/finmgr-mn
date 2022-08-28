@@ -19,21 +19,9 @@
  */
 package sh.kss.finmgr;
 
-import io.micronaut.core.convert.ConversionContext;
-import io.micronaut.data.model.runtime.convert.AttributeConverter;
-import jakarta.inject.Singleton;
+import java.util.List;
 
-import static sh.kss.finmgr.Symbol.EMPTY;
+public interface InvestmentTransactionService {
 
-@Singleton
-public class SymbolConverter implements AttributeConverter<Symbol, String> {
-    @Override
-    public String convertToPersistedValue(Symbol symbol, ConversionContext context) {
-        return symbol == null ? EMPTY.value() : symbol.value();
-    }
-
-    @Override
-    public Symbol convertToEntityValue(String value, ConversionContext context) {
-        return value == null ? EMPTY : new Symbol(value);
-    }
+    List<InvestmentTransaction> getLatest();
 }
