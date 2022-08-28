@@ -1,0 +1,53 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("io.micronaut.application") version "3.5.1"
+}
+
+version = "0.0.1-SNAPSHOT"
+group = "sh.kss.finmgr"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor("org.projectlombok:lombok")
+    annotationProcessor("io.micronaut.data:micronaut-data-processor")
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.cache:micronaut-cache-caffeine")
+    implementation("io.micronaut.data:micronaut-data-jdbc")
+    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    implementation("org.javamoney:moneta:1.4.2")
+    compileOnly("org.projectlombok:lombok")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    runtimeOnly("com.h2database:h2")
+    testImplementation("org.assertj:assertj-core")
+    compileOnly("org.graalvm.nativeimage:svm")
+
+    implementation("io.micronaut:micronaut-validation")
+
+    testImplementation("org.mockito:mockito-core")
+
+}
+
+
+application {
+    mainClass.set("sh.kss.finmgr.Application")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+graalvmNative.toolchainDetection = false
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("sh.kss.finmgr.*")
+    }
+}

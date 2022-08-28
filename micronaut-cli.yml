@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: sh.kss.finmgr
+testFramework: junit
+sourceLanguage: java
+buildTool: gradle
+features: [annotation-api, app-name, assertj, cache-caffeine, data, data-jdbc, graalvm, gradle, h2, http-client, jackson-databind, java, java-application, jdbc-hikari, junit, logback, lombok, micronaut-build, mockito, netty-server, readme, shade, yaml]
