@@ -1,42 +1,65 @@
+/*
+    finmgr - a financial management framework
+    Copyright (C) 2022  Kennedy Software Solutions Inc.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+    sean <at> kennedy <dot> software
+ */
 plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("io.micronaut.application") version "3.5.1"
 }
 
-version = "0.0.1-SNAPSHOT"
 group = "sh.kss.finmgr"
+version = "0.0.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    implementation project(':lib')
+    implementation project(':ui')
+
     annotationProcessor("org.projectlombok:lombok")
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
     annotationProcessor("io.micronaut:micronaut-http-validation")
+
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-jackson-databind")
     implementation("io.micronaut.cache:micronaut-cache-caffeine")
     implementation("io.micronaut.data:micronaut-data-jdbc")
     implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     implementation("jakarta.annotation:jakarta.annotation-api")
+    implementation("io.micronaut:micronaut-validation")
     implementation("org.javamoney:moneta:1.4.2")
+
     compileOnly("org.projectlombok:lombok")
-    runtimeOnly("ch.qos.logback:logback-classic")
-    runtimeOnly("com.h2database:h2")
-    testImplementation("org.assertj:assertj-core")
     compileOnly("org.graalvm.nativeimage:svm")
 
-    implementation("io.micronaut:micronaut-validation")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    runtimeOnly("com.h2database:h2")
 
+    testImplementation("org.assertj:assertj-core")
     testImplementation("org.mockito:mockito-core")
-
 }
-
 
 application {
     mainClass.set("sh.kss.finmgr.Application")
 }
+
 java {
     sourceCompatibility = JavaVersion.toVersion("17")
     targetCompatibility = JavaVersion.toVersion("17")

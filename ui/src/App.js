@@ -17,5 +17,20 @@
 
     sean <at> kennedy <dot> software
  */
-rootProject.name='finmgr'
-include 'ui', 'lib', 'api'
+import logo from './logo.svg';
+import './App.css';
+
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          finmgr
+        </p>
+      </header>
+    </div>
+  );
+}
+
+export default App;

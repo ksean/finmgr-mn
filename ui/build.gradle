@@ -17,5 +17,30 @@
 
     sean <at> kennedy <dot> software
  */
-rootProject.name='finmgr'
-include 'ui', 'lib', 'api'
+plugins {
+    id "com.moowork.node" version "1.3.1"
+    id "base"
+}
+
+node {
+    version = "16.17.0"
+    download = true
+}
+
+task bundle(type: NpmTask, dependsOn: npmInstall) {
+    args = ["run", "build"]
+}
+
+task uiTest(type: NpmTask) {
+    environment = ["CI": "true"]
+    args = ["run", "test"]
+}
+
+task run(type: NpmTask) {
+    args = ["start"]
+}
+
+task copyUi(type: Copy) {
+    from "$rootDir/ui/build"
+    into "$rootDir/api/build/resources/main/static"
+}
