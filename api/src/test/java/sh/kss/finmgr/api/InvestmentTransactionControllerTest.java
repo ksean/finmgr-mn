@@ -17,9 +17,19 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr;
+package sh.kss.finmgr.api;
 
+import io.micronaut.core.type.Argument;
+import io.micronaut.http.HttpRequest;
+import io.micronaut.http.client.HttpClient;
+import io.micronaut.http.client.annotation.Client;
+import io.micronaut.test.annotation.MockBean;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
+import sh.kss.finmgr.InvestmentTransactionTest;
+import sh.kss.finmgr.domain.InvestmentTransaction;
+import sh.kss.finmgr.service.InvestmentTransactionService;
 
 import java.util.List;
 
@@ -27,18 +37,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class InvestmentTransactionServiceImplTest extends InvestmentTransactionTest {
+@MicronautTest
+class InvestmentTransactionControllerTest extends InvestmentTransactionTest {
 
-    InvestmentTransactionRepository repository = mock(InvestmentTransactionRepository.class);
+    @MockBean(InvestmentTransactionService.class)
+    InvestmentTransactionService service() {
+        return mock(InvestmentTransactionService.class);
+    }
 
-    InvestmentTransactionService service = new InvestmentTransactionServiceImpl(repository);
+    @Inject
+    InvestmentTransactionService service;
+
+    @Inject
+    @Client("/investment")
+    HttpClient client;
 
     @Test
-    void getLatest() {
-        when(repository.listOrderByTransactionDateDesc())
+    void latest() {
+        when(service.getLatest())
                 .thenReturn(LATEST_TRANSACTIONS);
 
-        List<InvestmentTransaction> actualLatestTransactions = service.getLatest();
+        final List<InvestmentTransaction> actualLatestTransactions = client.toBlocking().retrieve(HttpRequest.GET("/latest"), Argument.listOf(InvestmentTransaction.class));
 
         assertEquals(
                 LATEST_TRANSACTIONS,

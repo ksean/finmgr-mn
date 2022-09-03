@@ -17,11 +17,12 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr;
+package sh.kss.finmgr.persistence;
 
 import io.micronaut.data.jdbc.annotation.JdbcRepository;
 import io.micronaut.data.model.query.builder.sql.Dialect;
 import io.micronaut.data.repository.CrudRepository;
+import sh.kss.finmgr.domain.Account;
 
 @JdbcRepository(dialect = Dialect.H2)
 public interface AccountRepository

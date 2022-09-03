@@ -22,6 +22,8 @@ package sh.kss.finmgr;
 import io.micronaut.context.event.StartupEvent;
 import io.micronaut.runtime.Micronaut;
 import io.micronaut.runtime.event.annotation.EventListener;
+import sh.kss.finmgr.persistence.AccountRepository;
+import sh.kss.finmgr.persistence.InvestmentTransactionRepository;
 
 import javax.transaction.Transactional;
 

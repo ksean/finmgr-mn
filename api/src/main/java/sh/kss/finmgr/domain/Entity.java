@@ -17,18 +17,8 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr;
+package sh.kss.finmgr.domain;
 
-public enum InvestmentAction {
-    DISTRIBUTION,
-    JOURNAL,
-    BUY,
-    DEPOSIT,
-    WITHDRAWAL,
-    FEE,
-    REBATE,
-    FX_CONVERSION,
-    CORPORATE_ACTION,
-    REINVESTMENT,
-    SELL
+public sealed interface Entity<ID> permits InvestmentTransaction, Account {
+    ID id();
 }

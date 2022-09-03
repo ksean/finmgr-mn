@@ -17,8 +17,26 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr;
+package sh.kss.finmgr.persistence;
 
-public sealed interface Entity<ID> permits InvestmentTransaction, Account {
-    ID id();
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.data.annotation.Join;
+import io.micronaut.data.jdbc.annotation.JdbcRepository;
+import io.micronaut.data.model.query.builder.sql.Dialect;
+import io.micronaut.data.repository.CrudRepository;
+import sh.kss.finmgr.domain.InvestmentTransaction;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+@JdbcRepository(dialect = Dialect.H2)
+public interface InvestmentTransactionRepository
+        extends CrudRepository<InvestmentTransaction, UUID> {
+
+    @Join("account")
+    Optional<InvestmentTransaction> findById(@NonNull UUID id);
+
+    @Join("account")
+    List<InvestmentTransaction> listOrderByTransactionDateDesc();
 }

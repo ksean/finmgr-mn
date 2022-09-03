@@ -17,22 +17,21 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr;
+package sh.kss.finmgr.domain;
 
-public enum Currency {
-    AUD,
-    CAD,
-    CHF,
-    CNY,
-    EUR,
-    GBP,
-    HKD,
-    INR,
-    JPY,
-    KRW,
-    MXN,
-    NZD,
-    SEK,
-    SGD,
-    USD,
+import io.micronaut.core.annotation.Nullable;
+import io.micronaut.data.annotation.GeneratedValue;
+import io.micronaut.data.annotation.Id;
+import io.micronaut.data.annotation.MappedEntity;
+import lombok.Builder;
+
+@MappedEntity
+@Builder
+public record Account(
+        @GeneratedValue
+        @Id
+        @Nullable
+        Long id,
+        String value,
+        String alias) implements Entity<Long> {
 }

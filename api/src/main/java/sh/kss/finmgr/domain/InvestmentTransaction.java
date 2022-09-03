@@ -17,7 +17,7 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr;
+package sh.kss.finmgr.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.micronaut.data.annotation.AutoPopulated;
@@ -52,6 +52,5 @@ public record InvestmentTransaction(
         BigDecimal net,
         Currency currency,
         @Relation(value = Relation.Kind.MANY_TO_ONE)
-        Account account
-        ) implements Entity<UUID> {
+        Account account) implements Entity<UUID> {
 }

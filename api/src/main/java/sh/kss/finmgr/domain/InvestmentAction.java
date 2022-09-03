@@ -17,25 +17,18 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr;
+package sh.kss.finmgr.domain;
 
-import io.micronaut.core.annotation.NonNull;
-import io.micronaut.data.annotation.Join;
-import io.micronaut.data.jdbc.annotation.JdbcRepository;
-import io.micronaut.data.model.query.builder.sql.Dialect;
-import io.micronaut.data.repository.CrudRepository;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-@JdbcRepository(dialect = Dialect.H2)
-public interface InvestmentTransactionRepository
-        extends CrudRepository<InvestmentTransaction, UUID> {
-
-    @Join("account")
-    Optional<InvestmentTransaction> findById(@NonNull UUID id);
-
-    @Join("account")
-    List<InvestmentTransaction> listOrderByTransactionDateDesc();
+public enum InvestmentAction {
+    DISTRIBUTION,
+    JOURNAL,
+    BUY,
+    DEPOSIT,
+    WITHDRAWAL,
+    FEE,
+    REBATE,
+    FX_CONVERSION,
+    CORPORATE_ACTION,
+    REINVESTMENT,
+    SELL
 }

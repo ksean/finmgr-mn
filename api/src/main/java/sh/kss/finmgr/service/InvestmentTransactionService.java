@@ -17,7 +17,9 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr;
+package sh.kss.finmgr.service;
+
+import sh.kss.finmgr.domain.InvestmentTransaction;
 
 import java.util.List;
 

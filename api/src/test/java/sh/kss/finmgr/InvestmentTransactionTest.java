@@ -19,14 +19,16 @@
  */
 package sh.kss.finmgr;
 
+import sh.kss.finmgr.domain.InvestmentTransaction;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
 import static java.math.BigDecimal.ZERO;
-import static sh.kss.finmgr.Currency.CAD;
-import static sh.kss.finmgr.InvestmentAction.DEPOSIT;
-import static sh.kss.finmgr.Symbol.EMPTY;
+import static sh.kss.finmgr.domain.Currency.CAD;
+import static sh.kss.finmgr.domain.InvestmentAction.DEPOSIT;
+import static sh.kss.finmgr.domain.Symbol.EMPTY;
 
 public abstract class InvestmentTransactionTest {
 

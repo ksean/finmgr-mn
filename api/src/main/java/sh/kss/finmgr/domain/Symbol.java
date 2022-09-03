@@ -17,23 +17,13 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr;
+package sh.kss.finmgr.domain;
 
-import jakarta.inject.Singleton;
+import io.micronaut.data.annotation.TypeDef;
+import io.micronaut.data.model.DataType;
+import sh.kss.finmgr.persistence.converter.SymbolConverter;
 
-import java.util.List;
-
-@Singleton
-public class InvestmentTransactionServiceImpl implements InvestmentTransactionService {
-
-    private final InvestmentTransactionRepository repository;
-
-    public InvestmentTransactionServiceImpl(InvestmentTransactionRepository repository) {
-        this.repository = repository;
-    }
-
-    @Override
-    public List<InvestmentTransaction> getLatest() {
-        return repository.listOrderByTransactionDateDesc();
-    }
+@TypeDef(type = DataType.STRING, converter = SymbolConverter.class)
+public record Symbol(String value) {
+    public static final Symbol EMPTY = new Symbol(" ");
 }

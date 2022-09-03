@@ -18,4 +18,4 @@
     sean <at> kennedy <dot> software
  */
 rootProject.name='finmgr'
-include 'ui', 'lib', 'api'
+include 'ui', 'api'

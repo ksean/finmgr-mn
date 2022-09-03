@@ -23,6 +23,10 @@ import io.micronaut.runtime.EmbeddedApplication;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
+import sh.kss.finmgr.domain.Account;
+import sh.kss.finmgr.domain.InvestmentTransaction;
+import sh.kss.finmgr.persistence.AccountRepository;
+import sh.kss.finmgr.persistence.InvestmentTransactionRepository;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -30,9 +34,9 @@ import java.util.Optional;
 
 import static java.math.BigDecimal.ZERO;
 import static org.junit.jupiter.api.Assertions.*;
-import static sh.kss.finmgr.Currency.CAD;
-import static sh.kss.finmgr.InvestmentAction.DEPOSIT;
-import static sh.kss.finmgr.Symbol.EMPTY;
+import static sh.kss.finmgr.domain.Currency.CAD;
+import static sh.kss.finmgr.domain.InvestmentAction.DEPOSIT;
+import static sh.kss.finmgr.domain.Symbol.EMPTY;
 
 @MicronautTest
 class FinmgrTest {

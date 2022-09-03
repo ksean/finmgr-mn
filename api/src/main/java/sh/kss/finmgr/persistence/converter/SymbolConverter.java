@@ -17,24 +17,24 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr;
+package sh.kss.finmgr.persistence.converter;
 
-import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Get;
+import io.micronaut.core.convert.ConversionContext;
+import io.micronaut.data.model.runtime.convert.AttributeConverter;
+import jakarta.inject.Singleton;
+import sh.kss.finmgr.domain.Symbol;
 
-import java.util.List;
+import static sh.kss.finmgr.domain.Symbol.EMPTY;
 
-@Controller("/investment")
-public class InvestmentTransactionController {
-
-    private final InvestmentTransactionService service;
-
-    public InvestmentTransactionController(InvestmentTransactionService service) {
-        this.service = service;
+@Singleton
+public class SymbolConverter implements AttributeConverter<Symbol, String> {
+    @Override
+    public String convertToPersistedValue(Symbol symbol, ConversionContext context) {
+        return symbol == null ? EMPTY.value() : symbol.value();
     }
 
-    @Get("/latest")
-    List<InvestmentTransaction> latest() {
-        return service.getLatest();
+    @Override
+    public Symbol convertToEntityValue(String value, ConversionContext context) {
+        return value == null ? EMPTY : new Symbol(value);
     }
 }
