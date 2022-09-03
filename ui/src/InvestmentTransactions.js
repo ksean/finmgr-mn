@@ -64,7 +64,7 @@ class InvestmentTransactions extends React.Component {
         } else {
             return (
                 <React.Fragment>
-                    <Title>Recent Orders</Title>
+                    <Title>Recent Transactions</Title>
                     <Table size='large'>
                         <TableHead>
                             <TableRow>
