@@ -83,7 +83,7 @@ class InvestmentTransactions extends React.Component {
                         </TableHead>
                         <TableBody>
                             {rows.map((row) => (
-                                <TableRow key={row["id"]}>
+                                <TableRow key={row.id}>
                                     <TableCell>{row.transactionDate}</TableCell>
                                     <TableCell>{row.settlementDate}</TableCell>
                                     <TableCell>{row.action}</TableCell>

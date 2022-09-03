@@ -37,6 +37,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from './ListItems';
+import logo from './logo.svg';
 
 import InvestmentTransactions from './InvestmentTransactions';
 
@@ -129,6 +130,14 @@ function DashboardContent() {
                         >
                             <MenuIcon />
                         </IconButton>
+                        <img
+                            style={{
+                                marginRight: 8
+                            }}
+                            src={logo}
+                            height={24}
+                            width={24}
+                            alt="finmgr"/>
                         <Typography
                             component="h1"
                             variant="h6"
@@ -136,7 +145,7 @@ function DashboardContent() {
                             noWrap
                             sx={{ flexGrow: 1 }}
                         >
-                            Dashboard
+                            finmgr
                         </Typography>
                         <IconButton color="inherit">
                             <Badge badgeContent={4} color="secondary">
