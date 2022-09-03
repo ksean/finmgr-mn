@@ -20,6 +20,7 @@
 package sh.kss.finmgr.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.data.annotation.AutoPopulated;
 import io.micronaut.data.annotation.Id;
 import io.micronaut.data.annotation.MappedEntity;
@@ -43,12 +44,11 @@ public record InvestmentTransaction(
         Instant transactionDate,
         Instant settlementDate,
         InvestmentAction action,
-        Symbol symbol,
+        @Nullable Symbol symbol,
         String description,
-        BigDecimal quantity,
-        BigDecimal price,
-        BigDecimal gross,
-        BigDecimal commission,
+        @Nullable BigDecimal quantity,
+        @Nullable BigDecimal price,
+        @Nullable BigDecimal commission,
         BigDecimal net,
         Currency currency,
         @Relation(value = Relation.Kind.MANY_TO_ONE)

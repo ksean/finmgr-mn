@@ -1,6 +1,14 @@
 micronaut:
   application:
     name: finmgr
+  server:
+    port: 8080
+    cors:
+      enabled: false
+      configurations:
+        dev:
+          allowedOrigins:
+            - "localhost:3000"
 datasources:
   default:
     url: jdbc:h2:mem:devDb;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE

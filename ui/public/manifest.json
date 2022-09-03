@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "finmgr",
+  "name": "finmgr - a financial management framework",
   "icons": [
     {
       "src": "favicon.ico",

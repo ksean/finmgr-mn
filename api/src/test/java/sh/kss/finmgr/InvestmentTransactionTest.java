@@ -48,7 +48,6 @@ public abstract class InvestmentTransactionTest {
                 .description("deposit on dec 21")
                 .quantity(ZERO)
                 .price(ZERO)
-                .gross(ZERO)
                 .commission(ZERO)
                 .net(new BigDecimal("1500"))
                 .currency(CAD)

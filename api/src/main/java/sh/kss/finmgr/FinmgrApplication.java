@@ -22,11 +22,22 @@ package sh.kss.finmgr;
 import io.micronaut.context.event.StartupEvent;
 import io.micronaut.runtime.Micronaut;
 import io.micronaut.runtime.event.annotation.EventListener;
+import jakarta.inject.Singleton;
+import sh.kss.finmgr.domain.Account;
+import sh.kss.finmgr.domain.Currency;
+import sh.kss.finmgr.domain.InvestmentAction;
+import sh.kss.finmgr.domain.InvestmentTransaction;
 import sh.kss.finmgr.persistence.AccountRepository;
 import sh.kss.finmgr.persistence.InvestmentTransactionRepository;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
+import java.time.Instant;
 
+import static sh.kss.finmgr.domain.Currency.CAD;
+import static sh.kss.finmgr.domain.InvestmentAction.DEPOSIT;
+
+@Singleton
 public class FinmgrApplication {
 
     private final InvestmentTransactionRepository investmentTransactionRepository;
@@ -44,6 +55,22 @@ public class FinmgrApplication {
     @EventListener
     @Transactional
     void startup(StartupEvent startupEvent) {
-        // Startup
+        Account account = accountRepository.save(
+                Account.builder()
+                        .value("accountid")
+                        .alias("alias")
+                        .build());
+
+        investmentTransactionRepository.save(
+                InvestmentTransaction.builder()
+                        .transactionDate(Instant.now())
+                        .settlementDate(Instant.now())
+                        .action(DEPOSIT)
+                        .description("Deposited some money")
+                        .net(new BigDecimal("1500"))
+                        .currency(CAD)
+                        .account(account)
+                        .build()
+        );
     }
 }

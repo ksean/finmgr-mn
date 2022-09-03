@@ -70,7 +70,6 @@ class FinmgrTest {
                         .description("foo")
                         .quantity(ZERO)
                         .price(ZERO)
-                        .gross(ZERO)
                         .commission(ZERO)
                         .net(new BigDecimal("1500"))
                         .currency(CAD)
