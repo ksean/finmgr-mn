@@ -19,43 +19,69 @@
  */
 package sh.kss.finmgr.api;
 
+import io.micronaut.core.async.annotation.SingleResult;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
-import io.micronaut.http.annotation.Consumes;
-import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Get;
-import io.micronaut.http.annotation.Post;
-import io.micronaut.http.multipart.StreamingFileUpload;
+import io.micronaut.http.annotation.*;
+import io.micronaut.http.multipart.CompletedFileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sh.kss.finmgr.domain.InvestmentTransaction;
+import sh.kss.finmgr.service.CsvFileConverterService;
+import sh.kss.finmgr.service.CsvFileConverterServiceImpl;
 import sh.kss.finmgr.service.InvestmentTransactionService;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Scanner;
 
 @Controller("/investment")
 public class InvestmentTransactionController {
 
     private static final Logger log = LoggerFactory.getLogger(InvestmentTransactionController.class);
 
-    private final InvestmentTransactionService service;
+    private final InvestmentTransactionService transactionService;
+    private final CsvFileConverterService csvService;
 
-    public InvestmentTransactionController(InvestmentTransactionService service) {
-        this.service = service;
+    public InvestmentTransactionController(
+            InvestmentTransactionService transactionService,
+            CsvFileConverterServiceImpl csvService
+    ) {
+        this.transactionService = transactionService;
+        this.csvService = csvService;
     }
 
     @Get("/latest")
     List<InvestmentTransaction> latest() {
         log.info("Received request to /latest");
 
-        return service.getLatest();
+        return transactionService.getLatest();
     }
 
     @Post(value = "/import")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    HttpResponse<String> importFile(StreamingFileUpload fileUpload) {
-        log.info("Received request to /import with {}", fileUpload.getName());
-
-        return HttpResponse.ok();
+    @SingleResult
+    HttpResponse<String> importFile(@Part("file") CompletedFileUpload file) {
+        try {
+            File tempFile = File.createTempFile(file.getFilename(), "temp");
+            Path path = Paths.get(tempFile.getAbsolutePath());
+            Files.write(path, file.getBytes());
+            try (Scanner scanner = new Scanner(tempFile)) {
+                while (scanner.hasNext()) {
+                    System.out.println(scanner.nextLine());
+                }
+            } catch (FileNotFoundException fnfe) {
+                fnfe.printStackTrace();
+            }
+            return HttpResponse.ok("Uploaded");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return HttpResponse.badRequest("Upload Failed");
+        }
     }
 }

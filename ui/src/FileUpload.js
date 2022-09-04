@@ -51,13 +51,18 @@ export default function FileUpload() {
     };
 
     const onDrop = useCallback(acceptedFiles => {
+        const formData = new FormData();
         acceptedFiles.forEach(file => {
-            fetch('/investment/import', {
-                method: 'POST',
-                body: file,
-                mode: "no-cors"
-            })
-        })
+            formData.append('file', file)
+        });
+        fetch('/investment/import', {
+            method: 'POST',
+            body: formData,
+            mode: "no-cors",
+            headers: { 'Content-Type': 'multipart/formdata' }
+        }).then(response => {
+            console.log(response);
+        });
     }, [])
 
     const {
