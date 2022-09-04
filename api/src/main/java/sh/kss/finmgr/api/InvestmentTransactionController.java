@@ -19,8 +19,15 @@
  */
 package sh.kss.finmgr.api;
 
+import io.micronaut.http.HttpResponse;
+import io.micronaut.http.MediaType;
+import io.micronaut.http.annotation.Consumes;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Post;
+import io.micronaut.http.multipart.StreamingFileUpload;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sh.kss.finmgr.domain.InvestmentTransaction;
 import sh.kss.finmgr.service.InvestmentTransactionService;
 
@@ -28,6 +35,8 @@ import java.util.List;
 
 @Controller("/investment")
 public class InvestmentTransactionController {
+
+    private static final Logger log = LoggerFactory.getLogger(InvestmentTransactionController.class);
 
     private final InvestmentTransactionService service;
 
@@ -37,6 +46,16 @@ public class InvestmentTransactionController {
 
     @Get("/latest")
     List<InvestmentTransaction> latest() {
+        log.info("Received request to /latest");
+
         return service.getLatest();
+    }
+
+    @Post(value = "/import")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    HttpResponse<String> importFile(StreamingFileUpload fileUpload) {
+        log.info("Received request to /import with {}", fileUpload.getName());
+
+        return HttpResponse.ok();
     }
 }

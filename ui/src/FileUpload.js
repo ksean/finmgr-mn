@@ -55,6 +55,7 @@ export default function FileUpload() {
             fetch('/investment/import', {
                 method: 'POST',
                 body: file,
+                mode: "no-cors"
             })
         })
     }, [])
