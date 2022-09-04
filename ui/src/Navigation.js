@@ -24,11 +24,11 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import {
     DashboardOutlined,
-    Download,
+    FileDownload,
+    FileUpload,
     FilterAlt,
     FormatListBulleted,
     Photo,
-    Publish,
     Receipt,
 } from "@mui/icons-material";
 
@@ -74,14 +74,14 @@ export const secondaryListItems = (
         <Link to="/import">
             <ListItemButton>
                 <ListItemIcon>
-                    <Download />
+                    <FileUpload />
                 </ListItemIcon>
                 <ListItemText primary="Import" />
             </ListItemButton>
         </Link>
         <ListItemButton>
             <ListItemIcon>
-                <Publish />
+                <FileDownload />
             </ListItemIcon>
             <ListItemText primary="Export" />
         </ListItemButton>
