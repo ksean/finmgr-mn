@@ -18,6 +18,7 @@
     sean <at> kennedy <dot> software
  */
 import * as React from 'react';
+import { Link } from "react-router-dom";
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -33,12 +34,14 @@ import {
 
 export const mainListItems = (
     <React.Fragment>
-        <ListItemButton>
-            <ListItemIcon>
-                <DashboardOutlined />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-        </ListItemButton>
+        <Link to="/">
+            <ListItemButton>
+                <ListItemIcon>
+                    <DashboardOutlined />
+                </ListItemIcon>
+                <ListItemText primary="Dashboard" />
+            </ListItemButton>
+        </Link>
         <ListItemButton>
             <ListItemIcon>
                 <Receipt />
@@ -68,12 +71,14 @@ export const mainListItems = (
 
 export const secondaryListItems = (
     <React.Fragment>
-        <ListItemButton>
-            <ListItemIcon>
-                <Download />
-            </ListItemIcon>
-            <ListItemText primary="Import" />
-        </ListItemButton>
+        <Link to="/import">
+            <ListItemButton>
+                <ListItemIcon>
+                    <Download />
+                </ListItemIcon>
+                <ListItemText primary="Import" />
+            </ListItemButton>
+        </Link>
         <ListItemButton>
             <ListItemIcon>
                 <Publish />

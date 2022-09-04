@@ -18,6 +18,7 @@
     sean <at> kennedy <dot> software
  */
 import * as React from 'react';
+import { Routes, Route, Link } from "react-router-dom";
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -30,22 +31,19 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from './ListItems';
+import Home from './pages/Home';
+import Import from './pages/Import';
 import logo from './logo.svg';
-
-import InvestmentTransactions from './InvestmentTransactions';
 
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
-            <Link color="inherit" href="/">
+            <Link to="/" color="inherit">
                 finmgr
             </Link>{' '}
             {new Date().getFullYear()}
@@ -116,8 +114,7 @@ function DashboardContent() {
                     <Toolbar
                         sx={{
                             pr: '24px', // keep right padding when drawer closed
-                        }}
-                    >
+                        }}>
                         <IconButton
                             edge="start"
                             color="inherit"
@@ -126,8 +123,7 @@ function DashboardContent() {
                             sx={{
                                 marginRight: '36px',
                                 ...(open && { display: 'none' }),
-                            }}
-                        >
+                            }}>
                             <MenuIcon />
                         </IconButton>
                         <img
@@ -143,12 +139,11 @@ function DashboardContent() {
                             variant="h6"
                             color="inherit"
                             noWrap
-                            sx={{ flexGrow: 1 }}
-                        >
+                            sx={{ flexGrow: 1 }}>
                             finmgr
                         </Typography>
                         <IconButton color="inherit">
-                            <Badge badgeContent={4} color="secondary">
+                            <Badge badgeContent={0} color="secondary">
                                 <NotificationsIcon />
                             </Badge>
                         </IconButton>
@@ -161,8 +156,7 @@ function DashboardContent() {
                             alignItems: 'center',
                             justifyContent: 'flex-end',
                             px: [1],
-                        }}
-                    >
+                        }}>
                         <IconButton onClick={toggleDrawer}>
                             <ChevronLeftIcon />
                         </IconButton>
@@ -178,24 +172,17 @@ function DashboardContent() {
                     component="main"
                     sx={{
                         backgroundColor: (theme) =>
-                            theme.palette.mode === 'light'
-                                ? theme.palette.grey[100]
-                                : theme.palette.grey[900],
+                            theme.palette.grey[100],
                         flexGrow: 1,
                         height: '100vh',
                         overflow: 'auto',
-                    }}
-                >
+                    }}>
                     <Toolbar />
                     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-                        <Grid container spacing={3}>
-                            {/* Recent Transaction */}
-                            <Grid item xs={12}>
-                                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                    <InvestmentTransactions />
-                                </Paper>
-                            </Grid>
-                        </Grid>
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/import" element={<Import />} />
+                        </Routes>
                         <Copyright sx={{ pt: 4 }} />
                     </Container>
                 </Box>
