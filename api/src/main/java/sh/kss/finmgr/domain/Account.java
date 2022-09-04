@@ -33,5 +33,6 @@ public record Account(
         @Nullable
         Long id,
         String value,
-        String alias) implements Entity<Long> {
+        String alias,
+        AccountType accountType) implements Entity<Long> {
 }

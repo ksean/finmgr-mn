@@ -34,6 +34,7 @@ import java.util.Optional;
 
 import static java.math.BigDecimal.ZERO;
 import static org.junit.jupiter.api.Assertions.*;
+import static sh.kss.finmgr.domain.AccountType.NON_REGISTERED;
 import static sh.kss.finmgr.domain.Currency.CAD;
 import static sh.kss.finmgr.domain.InvestmentAction.DEPOSIT;
 import static sh.kss.finmgr.domain.Symbol.EMPTY;
@@ -57,7 +58,11 @@ class FinmgrTest {
 
     @Test
     void testRepositorySave() {
-        Account account = accountRepository.save(new Account(null, "Account id", "Account alias"));
+        Account account = accountRepository.save(Account.builder()
+                .value("account-id")
+                .alias("account-alias")
+                .accountType(NON_REGISTERED)
+                .build());
         assertEquals(1, accountRepository.count());
         assertNotNull(account.id());
 
