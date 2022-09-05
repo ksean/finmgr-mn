@@ -19,55 +19,28 @@
  */
 package sh.kss.finmgr.api;
 
-import io.micronaut.core.async.annotation.SingleResult;
-import io.micronaut.http.HttpResponse;
-import io.micronaut.http.MediaType;
-import io.micronaut.http.annotation.*;
-import io.micronaut.http.multipart.CompletedFileUpload;
+import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Get;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sh.kss.finmgr.domain.InvestmentTransaction;
-import sh.kss.finmgr.service.FileImporterService;
-import sh.kss.finmgr.service.FileImporterServiceImpl;
 import sh.kss.finmgr.service.InvestmentTransactionService;
 
-import java.io.IOException;
 import java.util.List;
 
 @Controller("/investment")
+@AllArgsConstructor
 public class InvestmentTransactionController {
 
     private static final Logger log = LoggerFactory.getLogger(InvestmentTransactionController.class);
 
     private final InvestmentTransactionService transactionService;
-    private final FileImporterService csvService;
-
-    public InvestmentTransactionController(
-            InvestmentTransactionService transactionService,
-            FileImporterServiceImpl csvService
-    ) {
-        this.transactionService = transactionService;
-        this.csvService = csvService;
-    }
 
     @Get("/latest")
     List<InvestmentTransaction> latest() {
         log.info("Received request to /latest");
 
         return transactionService.getLatest();
-    }
-
-    @Post(value = "/import")
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @SingleResult
-    HttpResponse<String> importFile(@Part("file") CompletedFileUpload file) {
-        log.info("Received request to /import file");
-        try {
-            csvService.ingest(file.getBytes());
-        } catch (IOException ioe) {
-            return HttpResponse.badRequest(ioe.getMessage());
-        }
-
-        return HttpResponse.ok();
     }
 }

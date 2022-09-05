@@ -57,7 +57,7 @@ export default function FileUpload() {
         acceptedFiles.forEach(file => {
             formData.append('file', file)
         });
-        fetch('/investment/import', {
+        fetch('/support/import', {
             method: 'POST',
             body: formData,
             mode: "no-cors",
