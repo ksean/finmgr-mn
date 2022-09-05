@@ -19,5 +19,30 @@
  */
 package sh.kss.finmgr.service;
 
-public interface CsvFileConverterService {
+import jakarta.inject.Singleton;
+
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+
+@Singleton
+public class CsvParserRegistryImpl implements CsvParserRegistry{
+
+    Set<CsvParser> parsers = new HashSet<>();
+
+    public CsvParserRegistryImpl() {
+        this.register(new QuestradeCsvParserImpl());
+    }
+
+    @Override
+    public void register(CsvParser csvParser) {
+        parsers.add(csvParser);
+    }
+
+    @Override
+    public Optional<CsvParser> findParser(String header) {
+        return parsers.stream()
+                .filter(p -> p.canConvert(header))
+                .findFirst();
+    }
 }

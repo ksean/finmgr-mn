@@ -22,13 +22,11 @@ package sh.kss.finmgr.domain;
 public enum InvestmentAction {
     DISTRIBUTION,
     JOURNAL,
-    BUY,
+    TRADE,
     DEPOSIT,
     WITHDRAWAL,
-    FEE,
-    REBATE,
+    FEE_OR_REBATE,
     FX_CONVERSION,
     CORPORATE_ACTION,
     REINVESTMENT,
-    SELL
 }

@@ -17,18 +17,28 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.persistence;
+package sh.kss.finmgr.service;
 
-import io.micronaut.data.jdbc.annotation.JdbcRepository;
-import io.micronaut.data.model.query.builder.sql.Dialect;
-import io.micronaut.data.repository.CrudRepository;
+import jakarta.inject.Singleton;
+import lombok.AllArgsConstructor;
 import sh.kss.finmgr.domain.Account;
+import sh.kss.finmgr.persistence.AccountRepository;
 
 import java.util.Set;
 
-@JdbcRepository(dialect = Dialect.H2)
-public interface AccountRepository
-        extends CrudRepository<Account, Long> {
+@Singleton
+@AllArgsConstructor
+public class AccountServiceImpl implements AccountService {
 
-    Set<Account> findAll();
+    private final AccountRepository accountRepository;
+
+    @Override
+    public Set<Account> findAll() {
+        return accountRepository.findAll();
+    }
+
+    @Override
+    public Account save(Account account) {
+        return accountRepository.save(account);
+    }
 }

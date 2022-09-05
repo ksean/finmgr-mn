@@ -17,18 +17,18 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.persistence;
+package sh.kss.finmgr.service;
 
-import io.micronaut.data.jdbc.annotation.JdbcRepository;
-import io.micronaut.data.model.query.builder.sql.Dialect;
-import io.micronaut.data.repository.CrudRepository;
 import sh.kss.finmgr.domain.Account;
+import sh.kss.finmgr.domain.InvestmentTransaction;
 
-import java.util.Set;
+import java.io.BufferedReader;
+import java.util.List;
+import java.util.Map;
 
-@JdbcRepository(dialect = Dialect.H2)
-public interface AccountRepository
-        extends CrudRepository<Account, Long> {
+public interface CsvParser {
 
-    Set<Account> findAll();
+    boolean canConvert(String header);
+
+    Map<Account, List<InvestmentTransaction>> parse(BufferedReader reader);
 }

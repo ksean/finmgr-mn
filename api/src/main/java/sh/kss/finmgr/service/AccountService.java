@@ -19,8 +19,13 @@
  */
 package sh.kss.finmgr.service;
 
-import jakarta.inject.Singleton;
+import sh.kss.finmgr.domain.Account;
 
-@Singleton
-public class CsvFileConverterServiceImpl implements CsvFileConverterService {
+import java.util.Set;
+
+public interface AccountService {
+
+    Set<Account> findAll();
+
+    Account save(Account account);
 }

@@ -26,6 +26,7 @@ import io.micronaut.data.annotation.Id;
 import io.micronaut.data.annotation.MappedEntity;
 import io.micronaut.data.annotation.Relation;
 import lombok.Builder;
+import lombok.With;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -36,6 +37,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.ALWAYS;
 @MappedEntity
 @Builder
 @JsonInclude(ALWAYS)
+@With
 public record InvestmentTransaction(
 
         @Id
@@ -52,5 +54,4 @@ public record InvestmentTransaction(
         BigDecimal net,
         Currency currency,
         @Relation(value = Relation.Kind.MANY_TO_ONE)
-        Account account) implements Entity<UUID> {
-}
+        Account account) implements Entity<UUID> {}

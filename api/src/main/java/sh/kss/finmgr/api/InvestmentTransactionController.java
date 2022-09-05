@@ -27,18 +27,12 @@ import io.micronaut.http.multipart.CompletedFileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sh.kss.finmgr.domain.InvestmentTransaction;
-import sh.kss.finmgr.service.CsvFileConverterService;
-import sh.kss.finmgr.service.CsvFileConverterServiceImpl;
+import sh.kss.finmgr.service.FileImporterService;
+import sh.kss.finmgr.service.FileImporterServiceImpl;
 import sh.kss.finmgr.service.InvestmentTransactionService;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.Scanner;
 
 @Controller("/investment")
 public class InvestmentTransactionController {
@@ -46,11 +40,11 @@ public class InvestmentTransactionController {
     private static final Logger log = LoggerFactory.getLogger(InvestmentTransactionController.class);
 
     private final InvestmentTransactionService transactionService;
-    private final CsvFileConverterService csvService;
+    private final FileImporterService csvService;
 
     public InvestmentTransactionController(
             InvestmentTransactionService transactionService,
-            CsvFileConverterServiceImpl csvService
+            FileImporterServiceImpl csvService
     ) {
         this.transactionService = transactionService;
         this.csvService = csvService;
@@ -67,21 +61,13 @@ public class InvestmentTransactionController {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @SingleResult
     HttpResponse<String> importFile(@Part("file") CompletedFileUpload file) {
+        log.info("Received request to /import file");
         try {
-            File tempFile = File.createTempFile(file.getFilename(), "temp");
-            Path path = Paths.get(tempFile.getAbsolutePath());
-            Files.write(path, file.getBytes());
-            try (Scanner scanner = new Scanner(tempFile)) {
-                while (scanner.hasNext()) {
-                    System.out.println(scanner.nextLine());
-                }
-            } catch (FileNotFoundException fnfe) {
-                fnfe.printStackTrace();
-            }
-            return HttpResponse.ok("Uploaded");
-        } catch (IOException e) {
-            e.printStackTrace();
-            return HttpResponse.badRequest("Upload Failed");
+            csvService.ingest(file.getBytes());
+        } catch (IOException ioe) {
+            return HttpResponse.badRequest(ioe.getMessage());
         }
+
+        return HttpResponse.ok();
     }
 }

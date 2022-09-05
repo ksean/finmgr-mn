@@ -38,4 +38,9 @@ public class InvestmentTransactionServiceImpl implements InvestmentTransactionSe
     public List<InvestmentTransaction> getLatest() {
         return repository.listOrderByTransactionDateDesc();
     }
+
+    @Override
+    public void saveAll(List<InvestmentTransaction> transactions) {
+        repository.saveAll(transactions);
+    }
 }
