@@ -57,6 +57,12 @@ class InvestmentTransactions extends React.Component {
 
     render() {
         const {error, isLoading, rows} = this.state;
+
+        const formatDate = (string) => {
+            const date = new Date(string * 1000)
+            return date.toISOString().substring(0, 10)
+        }
+
         if (error) {
             return <div>Error: {error.message}</div>
         } else if (isLoading) {
@@ -82,10 +88,10 @@ class InvestmentTransactions extends React.Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row) => (
-                                <TableRow key={row.id}>
-                                    <TableCell>{row.transactionDate}</TableCell>
-                                    <TableCell>{row.settlementDate}</TableCell>
+                            {rows.map((row) => {
+                                return <TableRow key={row.id}>
+                                    <TableCell>{formatDate(row.transactionDate)}</TableCell>
+                                    <TableCell>{formatDate(row.settlementDate)}</TableCell>
                                     <TableCell>{row.action}</TableCell>
                                     <TableCell>{row.symbol.value}</TableCell>
                                     <TableCell>{row.description}</TableCell>
@@ -96,7 +102,7 @@ class InvestmentTransactions extends React.Component {
                                     <TableCell>{row.currency}</TableCell>
                                     <TableCell>{row.account.alias}</TableCell>
                                 </TableRow>
-                            ))}
+                            })}
                         </TableBody>
                     </Table>
                 </React.Fragment>

@@ -38,5 +38,5 @@ public interface InvestmentTransactionRepository
     Optional<InvestmentTransaction> findById(@NonNull UUID id);
 
     @Join("account")
-    List<InvestmentTransaction> listOrderByTransactionDateDesc();
+    List<InvestmentTransaction> listTop5OrderByTransactionDateDesc();
 }

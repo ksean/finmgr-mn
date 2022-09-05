@@ -36,7 +36,7 @@ public class InvestmentTransactionServiceImpl implements InvestmentTransactionSe
 
     @Override
     public List<InvestmentTransaction> getLatest() {
-        return repository.listOrderByTransactionDateDesc();
+        return repository.listTop5OrderByTransactionDateDesc();
     }
 
     @Override
