@@ -21,10 +21,17 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import InvestmentTransactions from "../InvestmentTransactions";
 import * as React from "react";
+import PortfolioHistory from "../PortfolioHistory";
 
 export default function Home() {
     return (
         <Grid container spacing={3}>
+            {/* Portfolio History */}
+            <Grid item xs={12} md={8} lg={12}>
+                <Paper sx={{p: 2, display: 'flex', flexDirection: 'column', height: 480}}>
+                    <PortfolioHistory/>
+                </Paper>
+            </Grid>
             {/* Recent Transaction */}
             <Grid item xs={'auto'}>
                 <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>

@@ -22,31 +22,52 @@ import { useTheme } from '@mui/material/styles';
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
 import Title from './Title';
 
-export default function Chart() {
+export default function PortfolioHistory() {
     const theme = useTheme();
+    const data = [
+        {
+            date: '2022-08-01',
+            amount: 1000
+        },
+        {
+            date: '2022-08-02',
+            amount: 1200
+        },
+        {
+            date: '2022-08-03',
+            amount: 1300
+        },
+        {
+            date: '2022-08-04',
+            amount: 1600
+        },
+        {
+            date: '2022-08-05',
+            amount: 2000
+        }
+    ];
 
     return (
         <React.Fragment>
-            <Title>Today</Title>
+            <Title>Portfolio History</Title>
             <ResponsiveContainer>
                 <LineChart
                     data={data}
+                    width={500}
+                    height={500}
                     margin={{
                         top: 16,
                         right: 16,
                         bottom: 0,
                         left: 24,
-                    }}
-                >
+                    }}>
                     <XAxis
-                        dataKey="time"
+                        dataKey="date"
                         stroke={theme.palette.text.secondary}
-                        style={theme.typography.body2}
-                    />
+                        style={theme.typography.body2}/>
                     <YAxis
                         stroke={theme.palette.text.secondary}
-                        style={theme.typography.body2}
-                    >
+                        style={theme.typography.body2}>
                         <Label
                             angle={270}
                             position="left"
@@ -54,9 +75,8 @@ export default function Chart() {
                                 textAnchor: 'middle',
                                 fill: theme.palette.text.primary,
                                 ...theme.typography.body1,
-                            }}
-                        >
-                            Sales ($)
+                            }}>
+                            Holdings ($)
                         </Label>
                     </YAxis>
                     <Line
@@ -64,8 +84,7 @@ export default function Chart() {
                         type="monotone"
                         dataKey="amount"
                         stroke={theme.palette.primary.main}
-                        dot={false}
-                    />
+                        dot={false}/>
                 </LineChart>
             </ResponsiveContainer>
         </React.Fragment>
