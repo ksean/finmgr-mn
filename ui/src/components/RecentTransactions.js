@@ -23,10 +23,10 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Title from './Title';
+import Title from '../Title';
 import { Tooltip } from "@mui/material";
 
-class InvestmentTransactions extends React.Component {
+class RecentTransactions extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -40,20 +40,34 @@ class InvestmentTransactions extends React.Component {
         fetch('/investment/latest', {
             mode: 'no-cors'
         })
-            .then(res => res.json())
-            .then(
-                (data) => {
+        .then(response => {
+            console.log(response)
+            if (response.status === 200) {
+                response.json().then (data => {
                     this.setState({
                         isLoading: false,
                         rows: data
                     });
-                },
-                (error) => {
-                    this.setState({
-                        isLoading: false,
-                        error
-                    });
                 })
+            } else if (response.status === 500) {
+                this.setState({
+                    isLoading: false,
+                    error: { 'message': 'API server isn\'t started' }
+                });
+            } else {
+                this.setState({
+                    isLoading: false,
+                    error: response
+                });
+            }
+        })
+        .catch(error => {
+            console.log(error)
+            this.setState({
+                isLoading: false,
+                error
+            });
+        })
     }
 
     render() {
@@ -128,4 +142,4 @@ class InvestmentTransactions extends React.Component {
     }
 }
 
-export default InvestmentTransactions;
+export default RecentTransactions;

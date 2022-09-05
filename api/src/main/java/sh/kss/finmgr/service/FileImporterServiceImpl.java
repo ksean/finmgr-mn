@@ -55,25 +55,29 @@ public class FileImporterServiceImpl implements FileImporterService {
                 bufferedReader.reset();
                 Optional<CsvParser> parser = csvParserRegistry.findParser(header);
                 if (parser.isPresent()) {
-                    Map<Account, List<InvestmentTransaction>> transactions = parser.get().parse(bufferedReader);
-                    Map<String, Account> accountMap = new HashMap<>();
-                    accountService.findAll().forEach(
-                            account -> accountMap.put(account.value(), account));
-                    List<InvestmentTransaction> transactionsToSave = new ArrayList<>();
-                    transactions.keySet().forEach(account -> {
-                        if (!accountMap.containsKey(account.value())) {
-                            Account persistedAccount = accountService.save(account);
-                            accountMap.put(account.value(), persistedAccount);
-                        }
-                        transactions.get(account).forEach(investmentTransaction -> {
-                            transactionsToSave.add(investmentTransaction.withAccount(accountMap.get(account.value())));
-                                });
-                    });
-                    transactionService.saveAll(transactionsToSave);
+                    saveTransactions(bufferedReader, parser.get());
                 } else {
                     throw new RuntimeException("Cannot find parser match for header: " + header);
                 }
             }
         }
+    }
+
+    private void saveTransactions(BufferedReader bufferedReader, CsvParser parser) {
+            Map<Account, List<InvestmentTransaction>> transactions = parser.parse(bufferedReader);
+            Map<String, Account> accountMap = new HashMap<>();
+            accountService.findAll().forEach(
+                    account -> accountMap.put(account.value(), account));
+            List<InvestmentTransaction> transactionsToSave = new ArrayList<>();
+            transactions.keySet().forEach(account -> {
+                if (!accountMap.containsKey(account.value())) {
+                    Account persistedAccount = accountService.save(account);
+                    accountMap.put(account.value(), persistedAccount);
+                }
+                transactions.get(account).forEach(investmentTransaction -> {
+                    transactionsToSave.add(investmentTransaction.withAccount(accountMap.get(account.value())));
+                });
+            });
+            transactionService.saveAll(transactionsToSave);
     }
 }

@@ -22,7 +22,7 @@ import { useDropzone } from 'react-dropzone'
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 
-export default function FileUpload() {
+export default function ImportFile() {
 
     const baseStyle = {
         flex: 1,

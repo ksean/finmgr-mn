@@ -38,7 +38,7 @@ class InvestmentTransactionServiceImplTest extends InvestmentTransactionTest {
 
     @Test
     void getLatest() {
-        when(repository.listOrderByTransactionDateDesc())
+        when(repository.listTop5OrderByTransactionDateDesc())
                 .thenReturn(LATEST_TRANSACTIONS);
 
         List<InvestmentTransaction> actualLatestTransactions = service.getLatest();

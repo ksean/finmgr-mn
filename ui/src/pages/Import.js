@@ -20,7 +20,7 @@
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import * as React from "react";
-import FileUpload from "../FileUpload";
+import ImportFile from "../components/ImportFile";
 
 export default function Import() {
     return (
@@ -28,7 +28,7 @@ export default function Import() {
             {/* Import */}
             <Grid item xs={12}>
                 <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
-                    <FileUpload/>
+                    <ImportFile/>
                 </Paper>
             </Grid>
         </Grid>

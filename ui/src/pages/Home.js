@@ -19,9 +19,9 @@
  */
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import InvestmentTransactions from "../InvestmentTransactions";
+import RecentTransactions from "../components/RecentTransactions";
 import * as React from "react";
-import PortfolioHistory from "../PortfolioHistory";
+import PortfolioHistory from "../components/PortfolioHistory";
 
 export default function Home() {
     return (
@@ -35,7 +35,7 @@ export default function Home() {
             {/* Recent Transaction */}
             <Grid item xs={'auto'}>
                 <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
-                    <InvestmentTransactions/>
+                    <RecentTransactions/>
                 </Paper>
             </Grid>
         </Grid>
