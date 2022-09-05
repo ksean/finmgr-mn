@@ -26,7 +26,7 @@ export default function Home() {
     return (
         <Grid container spacing={3}>
             {/* Recent Transaction */}
-            <Grid item xs={12}>
+            <Grid item xs={'auto'}>
                 <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
                     <InvestmentTransactions/>
                 </Paper>

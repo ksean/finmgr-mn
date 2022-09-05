@@ -71,7 +71,7 @@ export default function FileUpload() {
             }
         }).catch(error => {
             console.log(error)
-            toast.error("Error during import: ")
+            toast.error("Error during import: " + error)
         });
     }, [])
 

@@ -24,6 +24,7 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
+import { Tooltip } from "@mui/material";
 
 class InvestmentTransactions extends React.Component {
     constructor(props) {
@@ -63,6 +64,14 @@ class InvestmentTransactions extends React.Component {
             return date.toISOString().substring(0, 10)
         }
 
+        const formatCurrency = (number) => {
+            if (number == null) {
+                return ''
+            } else {
+                return number.toFixed(2)
+            }
+        }
+
         if (error) {
             return <div>Error: {error.message}</div>
         } else if (isLoading) {
@@ -70,7 +79,7 @@ class InvestmentTransactions extends React.Component {
         } else {
             return (
                 <React.Fragment>
-                    <Title>Recent Transactions</Title>
+                    <Title sx={{ pl: 8 }}>Recent Transactions</Title>
                     <Table size='large'>
                         <TableHead>
                             <TableRow>
@@ -80,9 +89,9 @@ class InvestmentTransactions extends React.Component {
                                 <TableCell>Symbol</TableCell>
                                 <TableCell>Description</TableCell>
                                 <TableCell>Quantity</TableCell>
-                                <TableCell>Price</TableCell>
-                                <TableCell>Commission</TableCell>
-                                <TableCell>Net Amount</TableCell>
+                                <TableCell>Price ($)</TableCell>
+                                <TableCell>Commission ($)</TableCell>
+                                <TableCell>Net Amount ($)</TableCell>
                                 <TableCell>Currency</TableCell>
                                 <TableCell>Account</TableCell>
                             </TableRow>
@@ -94,11 +103,19 @@ class InvestmentTransactions extends React.Component {
                                     <TableCell>{formatDate(row.settlementDate)}</TableCell>
                                     <TableCell>{row.action}</TableCell>
                                     <TableCell>{row.symbol.value}</TableCell>
-                                    <TableCell>{row.description}</TableCell>
+                                    <TableCell width={200}>
+                                        <Tooltip title={row.description}><div style={{
+                                            whiteSpace: "nowrap",
+                                            textOverflow: "ellipsis",
+                                            width: "200px",
+                                            display: "block",
+                                            overflow: "hidden"
+                                        }}>{row.description}</div></Tooltip>
+                                    </TableCell>
                                     <TableCell>{row.quantity}</TableCell>
-                                    <TableCell>{row.price}</TableCell>
-                                    <TableCell>{row.commission}</TableCell>
-                                    <TableCell>{row.net}</TableCell>
+                                    <TableCell>{formatCurrency(row.price)}</TableCell>
+                                    <TableCell>{formatCurrency(row.commission)}</TableCell>
+                                    <TableCell>{formatCurrency(row.net)}</TableCell>
                                     <TableCell>{row.currency}</TableCell>
                                     <TableCell>{row.account.alias}</TableCell>
                                 </TableRow>

@@ -178,7 +178,7 @@ function DashboardContent() {
                         overflow: 'auto',
                     }}>
                     <Toolbar />
-                    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+                    <Container maxWidth="false" sx={{ mt: 4, mb: 4 }}>
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="/import" element={<Import />} />
