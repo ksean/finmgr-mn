@@ -17,13 +17,30 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.domain;
+package sh.kss.finmgr.service;
 
-public sealed interface Entity<ID> permits
-        InvestmentTransaction,
-        Account,
-        AccountDailyReport,
-        SymbolFixing
-{
-    ID id();
+import jakarta.inject.Singleton;
+import lombok.AllArgsConstructor;
+import sh.kss.finmgr.domain.SymbolFixing;
+import sh.kss.finmgr.domain.SymbolFixingKey;
+import sh.kss.finmgr.persistence.SymbolFixingRepository;
+
+import java.util.Collection;
+import java.util.Optional;
+
+@Singleton
+@AllArgsConstructor
+public class FixingServiceImpl implements FixingService {
+
+    private final SymbolFixingRepository repository;
+
+    @Override
+    public void saveAll(Collection<SymbolFixing> symbolFixings) {
+        repository.saveAll(symbolFixings);
+    }
+
+    @Override
+    public Optional<SymbolFixing> find(SymbolFixingKey key) {
+        return repository.findBySymbolAndDate(key.symbol(), key.date());
+    }
 }

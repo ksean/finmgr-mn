@@ -17,13 +17,17 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.domain;
+package sh.kss.finmgr.service;
 
-public sealed interface Entity<ID> permits
-        InvestmentTransaction,
-        Account,
-        AccountDailyReport,
-        SymbolFixing
-{
-    ID id();
+import sh.kss.finmgr.domain.SymbolFixing;
+import sh.kss.finmgr.domain.SymbolFixingKey;
+
+import java.util.Collection;
+import java.util.Optional;
+
+public interface FixingService {
+
+    void saveAll(Collection<SymbolFixing> symbolFixings);
+
+    Optional<SymbolFixing> find(SymbolFixingKey key);
 }

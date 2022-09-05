@@ -17,13 +17,21 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.domain;
+package sh.kss.finmgr.persistence;
 
-public sealed interface Entity<ID> permits
-        InvestmentTransaction,
-        Account,
-        AccountDailyReport,
-        SymbolFixing
-{
-    ID id();
+import io.micronaut.data.jdbc.annotation.JdbcRepository;
+import io.micronaut.data.model.query.builder.sql.Dialect;
+import io.micronaut.data.repository.CrudRepository;
+import sh.kss.finmgr.domain.Symbol;
+import sh.kss.finmgr.domain.SymbolFixing;
+
+import java.time.Instant;
+import java.util.Optional;
+import java.util.UUID;
+
+@JdbcRepository(dialect = Dialect.H2)
+public interface SymbolFixingRepository
+        extends CrudRepository<SymbolFixing, UUID> {
+
+    Optional<SymbolFixing> findBySymbolAndDate(Symbol symbol, Instant date);
 }

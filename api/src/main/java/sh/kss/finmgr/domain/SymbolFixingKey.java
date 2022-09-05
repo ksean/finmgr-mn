@@ -19,11 +19,12 @@
  */
 package sh.kss.finmgr.domain;
 
-public sealed interface Entity<ID> permits
-        InvestmentTransaction,
-        Account,
-        AccountDailyReport,
-        SymbolFixing
-{
-    ID id();
-}
+import lombok.Builder;
+
+import java.time.Instant;
+
+@Builder
+public record SymbolFixingKey(
+        Symbol symbol,
+        Instant date
+) {}

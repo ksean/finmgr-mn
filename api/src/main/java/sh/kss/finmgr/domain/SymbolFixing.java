@@ -19,11 +19,25 @@
  */
 package sh.kss.finmgr.domain;
 
-public sealed interface Entity<ID> permits
-        InvestmentTransaction,
-        Account,
-        AccountDailyReport,
-        SymbolFixing
-{
-    ID id();
-}
+import com.fasterxml.jackson.annotation.JsonInclude;
+import io.micronaut.data.annotation.AutoPopulated;
+import io.micronaut.data.annotation.Id;
+import io.micronaut.data.annotation.MappedEntity;
+import lombok.Builder;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.UUID;
+
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.ALWAYS;
+
+@MappedEntity
+@Builder
+@JsonInclude(ALWAYS)
+public record SymbolFixing(
+        @Id
+        @AutoPopulated
+        UUID id,
+        Symbol symbol,
+        Instant date,
+        BigDecimal amount) implements Entity<UUID> {}
