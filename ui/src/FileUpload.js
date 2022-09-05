@@ -19,6 +19,8 @@
  */
 import React, { useCallback, useMemo } from 'react'
 import { useDropzone } from 'react-dropzone'
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function FileUpload() {
 
@@ -51,7 +53,7 @@ export default function FileUpload() {
     };
 
     const onDrop = useCallback(acceptedFiles => {
-        const formData = new FormData();
+        const formData = new FormData()
         acceptedFiles.forEach(file => {
             formData.append('file', file)
         });
@@ -61,7 +63,15 @@ export default function FileUpload() {
             mode: "no-cors",
             headers: { 'Content-Type': 'multipart/formdata' }
         }).then(response => {
-            console.log(response);
+            console.log(response)
+            if (response.status === 200) {
+                toast.success("Imported successfully!")
+            } else {
+                toast.warn("Import not successful: " + response.statusText)
+            }
+        }).catch(error => {
+            console.log(error)
+            toast.error("Error during import: ")
         });
     }, [])
 
@@ -90,6 +100,7 @@ export default function FileUpload() {
                 <input {...getInputProps()} />
                 <p>Drag 'n' drop some files here, or click to select files</p>
             </div>
+            <ToastContainer/>
         </div>
     );
 }
