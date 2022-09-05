@@ -19,6 +19,6 @@
  */
 package sh.kss.finmgr.domain;
 
-public sealed interface Entity<ID> permits InvestmentTransaction, Account {
+public sealed interface Entity<ID> permits InvestmentTransaction, Account, AccountDailyReport {
     ID id();
 }
