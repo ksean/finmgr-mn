@@ -46,7 +46,7 @@ public record InvestmentTransaction(
         Instant transactionDate,
         Instant settlementDate,
         InvestmentAction action,
-        @Nullable Symbol symbol,
+        @Nullable String symbol,
         String description,
         @Nullable BigDecimal quantity,
         @Nullable BigDecimal price,

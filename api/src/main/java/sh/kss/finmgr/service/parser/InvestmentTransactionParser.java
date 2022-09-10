@@ -17,7 +17,7 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.service;
+package sh.kss.finmgr.service.parser;
 
 import sh.kss.finmgr.domain.Account;
 import sh.kss.finmgr.domain.InvestmentTransaction;
@@ -26,7 +26,7 @@ import java.io.BufferedReader;
 import java.util.List;
 import java.util.Map;
 
-public interface CsvParser {
+public interface InvestmentTransactionParser {
 
     boolean canConvert(String header);
 

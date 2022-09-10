@@ -17,8 +17,16 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.domain;
+package sh.kss.finmgr.service.parser;
 
-public record Symbol(String value) {
-    public static final Symbol EMPTY = new Symbol(" ");
+import sh.kss.finmgr.domain.Fixing;
+
+import java.io.BufferedReader;
+import java.util.Set;
+
+public interface FixingParser {
+
+    boolean canConvert(String header);
+
+    Set<Fixing> parse(BufferedReader reader);
 }

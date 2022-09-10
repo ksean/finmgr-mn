@@ -17,13 +17,14 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.service;
+package sh.kss.finmgr.domain;
 
-import java.util.Optional;
+import lombok.Builder;
 
-public interface CsvParserRegistry {
+import java.math.BigDecimal;
+import java.time.Instant;
 
-    void register(CsvParser csvParser);
-
-    Optional<CsvParser> findParser(String header);
-}
+@Builder
+public record Fixing(
+        Instant date,
+        BigDecimal amount) {}

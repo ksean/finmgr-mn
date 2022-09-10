@@ -17,30 +17,32 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.service;
+package sh.kss.finmgr.service.registry;
 
 import jakarta.inject.Singleton;
+import sh.kss.finmgr.service.parser.InvestmentTransactionParser;
+import sh.kss.finmgr.service.parser.QuestradeInvestmentTransactionParserImpl;
 
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
 @Singleton
-public class CsvParserRegistryImpl implements CsvParserRegistry{
+public class InvestmentTransactionParserRegistryImpl implements InvestmentTransactionParserRegistry {
 
-    Set<CsvParser> parsers = new HashSet<>();
+    Set<InvestmentTransactionParser> parsers = new HashSet<>();
 
-    public CsvParserRegistryImpl() {
-        this.register(new QuestradeCsvParserImpl());
+    public InvestmentTransactionParserRegistryImpl() {
+        this.register(new QuestradeInvestmentTransactionParserImpl());
     }
 
     @Override
-    public void register(CsvParser csvParser) {
-        parsers.add(csvParser);
+    public void register(InvestmentTransactionParser investmentTransactionParser) {
+        parsers.add(investmentTransactionParser);
     }
 
     @Override
-    public Optional<CsvParser> findParser(String header) {
+    public Optional<InvestmentTransactionParser> findParser(String header) {
         return parsers.stream()
                 .filter(p -> p.canConvert(header))
                 .findFirst();

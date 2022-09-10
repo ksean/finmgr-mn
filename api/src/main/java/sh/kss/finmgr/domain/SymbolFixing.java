@@ -38,6 +38,6 @@ public record SymbolFixing(
         @Id
         @AutoPopulated
         UUID id,
-        Symbol symbol,
+        String symbol,
         Instant date,
         BigDecimal amount) implements Entity<UUID> {}

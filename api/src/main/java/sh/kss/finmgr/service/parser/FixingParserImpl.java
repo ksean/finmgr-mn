@@ -17,8 +17,24 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.domain;
+package sh.kss.finmgr.service.parser;
 
-public record Symbol(String value) {
-    public static final Symbol EMPTY = new Symbol(" ");
+import sh.kss.finmgr.domain.Fixing;
+
+import java.io.BufferedReader;
+import java.util.Set;
+
+public class FixingParserImpl implements FixingParser {
+
+    @Override
+    public boolean canConvert(String header) {
+        String trimmed = header.trim().toLowerCase();
+        return trimmed.equals("date,close") ||
+                trimmed.equals("date,close/last");
+    }
+
+    @Override
+    public Set<Fixing> parse(BufferedReader reader) {
+        return Set.of();
+    }
 }

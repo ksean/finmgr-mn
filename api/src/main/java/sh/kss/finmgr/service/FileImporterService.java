@@ -21,5 +21,5 @@ package sh.kss.finmgr.service;
 
 public interface FileImporterService {
 
-    void ingest(byte[] file);
+    void ingest(byte[] file, String filename);
 }

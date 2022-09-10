@@ -23,7 +23,13 @@ import jakarta.inject.Singleton;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import sh.kss.finmgr.domain.Account;
+import sh.kss.finmgr.domain.Fixing;
 import sh.kss.finmgr.domain.InvestmentTransaction;
+import sh.kss.finmgr.domain.SymbolFixing;
+import sh.kss.finmgr.service.parser.FixingParser;
+import sh.kss.finmgr.service.parser.InvestmentTransactionParser;
+import sh.kss.finmgr.service.registry.FixingParserRegistry;
+import sh.kss.finmgr.service.registry.InvestmentTransactionParserRegistry;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -32,6 +38,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Singleton
 @AllArgsConstructor
@@ -39,12 +46,14 @@ public class FileImporterServiceImpl implements FileImporterService {
 
     private final InvestmentTransactionService transactionService;
     private final AccountService accountService;
-    private final CsvParserRegistry csvParserRegistry;
+    private final FixingService fixingService;
+    private final InvestmentTransactionParserRegistry investmentTransactionParserRegistry;
+    private final FixingParserRegistry fixingParserRegistry;
 
 
     @Override
     @SneakyThrows
-    public void ingest(byte[] bytes) {
+    public void ingest(byte[] bytes, String filename) {
         File tempFile = File.createTempFile("temp", "temp");
         Path path = Paths.get(tempFile.getAbsolutePath());
         Files.write(path, bytes);
@@ -53,17 +62,22 @@ public class FileImporterServiceImpl implements FileImporterService {
                 bufferedReader.mark(1);
                 String header = bufferedReader.readLine();
                 bufferedReader.reset();
-                Optional<CsvParser> parser = csvParserRegistry.findParser(header);
-                if (parser.isPresent()) {
-                    saveTransactions(bufferedReader, parser.get());
+                Optional<InvestmentTransactionParser> investmentParser = investmentTransactionParserRegistry.findParser(header);
+                if (investmentParser.isPresent()) {
+                    saveTransactions(bufferedReader, investmentParser.get());
                 } else {
-                    throw new RuntimeException("Cannot find parser match for header: " + header);
+                    Optional<FixingParser> fixingParser = fixingParserRegistry.findParser(header);
+                    if (fixingParser.isPresent()) {
+                        saveFixings(bufferedReader, fixingParser.get(), filename);
+                    } else {
+                        throw new RuntimeException("Cannot find parser match for header: " + header);
+                    }
                 }
             }
         }
     }
 
-    private void saveTransactions(BufferedReader bufferedReader, CsvParser parser) {
+    private void saveTransactions(BufferedReader bufferedReader, InvestmentTransactionParser parser) {
             Map<Account, List<InvestmentTransaction>> transactions = parser.parse(bufferedReader);
             Map<String, Account> accountMap = new HashMap<>();
             accountService.findAll().forEach(
@@ -79,5 +93,18 @@ public class FileImporterServiceImpl implements FileImporterService {
                 });
             });
             transactionService.saveAll(transactionsToSave);
+    }
+
+    private void saveFixings(BufferedReader bufferedReader, FixingParser parser, String symbol) {
+        Set<Fixing> fixings = parser.parse(bufferedReader);
+        Set<SymbolFixing> symbolFixings = fixings.stream()
+                .map(fixing -> SymbolFixing.builder()
+                        .symbol(symbol)
+                        .date(fixing.date())
+                        .amount(fixing.amount())
+                        .build()
+                )
+                .collect(Collectors.toSet());
+        fixingService.saveAll(symbolFixings);
     }
 }

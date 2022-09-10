@@ -48,7 +48,7 @@ public class SupportController {
     HttpResponse<String> importFile(@Part("file") CompletedFileUpload file) {
         log.info("Received request to /import file");
         try {
-            csvService.ingest(file.getBytes());
+            csvService.ingest(file.getBytes(), file.getFilename());
         } catch (IOException ioe) {
             return HttpResponse.badRequest(ioe.getMessage());
         }

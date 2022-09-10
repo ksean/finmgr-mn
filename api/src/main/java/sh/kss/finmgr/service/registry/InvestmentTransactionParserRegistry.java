@@ -17,24 +17,15 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.persistence.converter;
+package sh.kss.finmgr.service.registry;
 
-import io.micronaut.core.convert.ConversionContext;
-import io.micronaut.data.model.runtime.convert.AttributeConverter;
-import jakarta.inject.Singleton;
-import sh.kss.finmgr.domain.Symbol;
+import sh.kss.finmgr.service.parser.InvestmentTransactionParser;
 
-import static sh.kss.finmgr.domain.Symbol.EMPTY;
+import java.util.Optional;
 
-@Singleton
-public class SymbolConverter implements AttributeConverter<Symbol, String> {
-    @Override
-    public String convertToPersistedValue(Symbol symbol, ConversionContext context) {
-        return symbol == null ? EMPTY.value() : symbol.value();
-    }
+public interface InvestmentTransactionParserRegistry {
 
-    @Override
-    public Symbol convertToEntityValue(String value, ConversionContext context) {
-        return value == null ? EMPTY : new Symbol(value);
-    }
+    void register(InvestmentTransactionParser investmentTransactionParser);
+
+    Optional<InvestmentTransactionParser> findParser(String header);
 }

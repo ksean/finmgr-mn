@@ -17,8 +17,15 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.domain;
+package sh.kss.finmgr.service.registry;
 
-public record Symbol(String value) {
-    public static final Symbol EMPTY = new Symbol(" ");
+import sh.kss.finmgr.service.parser.FixingParser;
+
+import java.util.Optional;
+
+public interface FixingParserRegistry {
+
+    void register(FixingParser fixingParser);
+
+    Optional<FixingParser> findParser(String header);
 }

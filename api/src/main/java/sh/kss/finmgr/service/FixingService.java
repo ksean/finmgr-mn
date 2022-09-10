@@ -30,4 +30,5 @@ public interface FixingService {
     void saveAll(Collection<SymbolFixing> symbolFixings);
 
     Optional<SymbolFixing> find(SymbolFixingKey key);
+    Optional<SymbolFixing> findNearest(SymbolFixingKey key);
 }

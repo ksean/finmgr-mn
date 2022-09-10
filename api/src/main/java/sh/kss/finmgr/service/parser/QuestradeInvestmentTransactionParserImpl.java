@@ -17,7 +17,7 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.service;
+package sh.kss.finmgr.service.parser;
 
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -37,7 +37,7 @@ import static java.util.stream.Collectors.groupingBy;
 import static sh.kss.finmgr.domain.InvestmentAction.*;
 
 @Singleton
-public class QuestradeCsvParserImpl implements CsvParser {
+public class QuestradeInvestmentTransactionParserImpl implements InvestmentTransactionParser {
 
     private final Map<String, Account> knownAccountIds = new HashMap<>();
     private final Map<String, Symbol> knownSymbols = new HashMap<>();
@@ -66,7 +66,7 @@ public class QuestradeCsvParserImpl implements CsvParser {
                 .transactionDate(Instant.parse(formatDate(questradeTransaction.getTransactionDate())))
                 .settlementDate(Instant.parse(formatDate(questradeTransaction.getSettlementDate())))
                 .action(parseAction(questradeTransaction.getActivityType()))
-                .symbol(parseSymbol(questradeTransaction.getSymbol()))
+                .symbol(questradeTransaction.getSymbol())
                 .description(questradeTransaction.getDescription())
                 .quantity(new BigDecimal(questradeTransaction.getQuantity()))
                 .price(new BigDecimal(currencyToNumber(questradeTransaction.getPrice())))
@@ -82,17 +82,6 @@ public class QuestradeCsvParserImpl implements CsvParser {
 
     private String currencyToNumber(String currency) {
         return currency.replaceAll("[$,]", "");
-    }
-
-    private Symbol parseSymbol(String symbolStr) {
-        if (knownSymbols.containsKey(symbolStr)) {
-            return knownSymbols.get(symbolStr);
-        } else {
-            Symbol symbol = new Symbol(symbolStr);
-            knownSymbols.put(symbolStr, symbol);
-
-            return symbol;
-        }
     }
 
     private Account parseAccount(String accountId, String accountType) {
