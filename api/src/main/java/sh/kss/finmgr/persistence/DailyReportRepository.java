@@ -19,27 +19,28 @@
  */
 package sh.kss.finmgr.persistence;
 
-import io.micronaut.core.annotation.NonNull;
 import io.micronaut.data.annotation.Join;
+import io.micronaut.data.annotation.Query;
 import io.micronaut.data.jdbc.annotation.JdbcRepository;
 import io.micronaut.data.model.query.builder.sql.Dialect;
 import io.micronaut.data.repository.CrudRepository;
-import sh.kss.finmgr.domain.InvestmentTransaction;
+import sh.kss.finmgr.domain.Account;
+import sh.kss.finmgr.domain.DailyReport;
 
+import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @JdbcRepository(dialect = Dialect.H2)
-public interface InvestmentTransactionRepository
-        extends CrudRepository<InvestmentTransaction, UUID> {
+public interface DailyReportRepository
+        extends CrudRepository<DailyReport, UUID> {
+
 
     @Join("account")
-    Optional<InvestmentTransaction> findById(@NonNull UUID id);
+    @Query("SELECT * FROM dailyreport dr WHERE dr.account = :account AND dr.date >= :date ORDER BY dr.date")
+    List<DailyReport> findByAccountAndDateGreaterThan(Account account, Instant date);
 
     @Join("account")
-    List<InvestmentTransaction> listTop5OrderByTransactionDateDesc();
-
-    @Join("account")
-    List<InvestmentTransaction> listAllOrderByTransactionDateAsc();
+    @Query("SELECT * FROM dailyreport dr WHERE dr.date >= :date ORDER BY dr.date")
+    List<DailyReport> findByDateGreaterThan(Instant date);
 }

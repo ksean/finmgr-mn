@@ -25,6 +25,8 @@ import java.util.List;
 
 public interface InvestmentTransactionService {
 
+    List<InvestmentTransaction> findAll();
+
     List<InvestmentTransaction> getLatest();
 
     void saveAll(List<InvestmentTransaction> transactions);

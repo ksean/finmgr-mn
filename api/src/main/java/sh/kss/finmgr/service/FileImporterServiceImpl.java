@@ -49,6 +49,7 @@ public class FileImporterServiceImpl implements FileImporterService {
     private final FixingService fixingService;
     private final InvestmentTransactionParserRegistry investmentTransactionParserRegistry;
     private final FixingParserRegistry fixingParserRegistry;
+    private final DailyReportService dailyReportService;
 
 
     @Override
@@ -73,6 +74,7 @@ public class FileImporterServiceImpl implements FileImporterService {
                         throw new RuntimeException("Cannot find parser match for header: " + header);
                     }
                 }
+                dailyReportService.refresh();
             }
         }
     }

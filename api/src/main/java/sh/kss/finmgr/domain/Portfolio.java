@@ -17,18 +17,15 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.service;
+package sh.kss.finmgr.domain;
 
-import sh.kss.finmgr.domain.Account;
+import lombok.Builder;
 
-import java.util.Optional;
-import java.util.Set;
+import java.util.Collection;
+import java.util.Map;
 
-public interface AccountService {
-
-    Set<Account> findAll();
-
-    Optional<Account> findById(Long id);
-
-    Account save(Account account);
-}
+@Builder
+public record Portfolio(
+    Map<Account, Collection<Holding>> holdings,
+    Cash cash
+) {}

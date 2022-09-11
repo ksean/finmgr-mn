@@ -17,29 +17,33 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.persistence;
+package sh.kss.finmgr.domain;
 
-import io.micronaut.core.annotation.NonNull;
-import io.micronaut.data.annotation.Join;
-import io.micronaut.data.jdbc.annotation.JdbcRepository;
-import io.micronaut.data.model.query.builder.sql.Dialect;
-import io.micronaut.data.repository.CrudRepository;
-import sh.kss.finmgr.domain.InvestmentTransaction;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import io.micronaut.data.annotation.AutoPopulated;
+import io.micronaut.data.annotation.Id;
+import io.micronaut.data.annotation.MappedEntity;
+import io.micronaut.data.annotation.Relation;
+import lombok.Builder;
 
-import java.util.List;
-import java.util.Optional;
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.UUID;
 
-@JdbcRepository(dialect = Dialect.H2)
-public interface InvestmentTransactionRepository
-        extends CrudRepository<InvestmentTransaction, UUID> {
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.ALWAYS;
 
-    @Join("account")
-    Optional<InvestmentTransaction> findById(@NonNull UUID id);
-
-    @Join("account")
-    List<InvestmentTransaction> listTop5OrderByTransactionDateDesc();
-
-    @Join("account")
-    List<InvestmentTransaction> listAllOrderByTransactionDateAsc();
-}
+@MappedEntity
+@Builder
+@JsonInclude(ALWAYS)
+public record DailyReport(
+        @Id
+        @AutoPopulated
+        UUID id,
+        Instant date,
+        BigDecimal totalAmount,
+        BigDecimal distributions,
+        BigDecimal capitalGains,
+        BigDecimal cashFlow,
+        @Relation(value = Relation.Kind.MANY_TO_ONE)
+        Account account
+) implements Entity<UUID> {}

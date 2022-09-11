@@ -22,7 +22,7 @@ package sh.kss.finmgr.domain;
 public sealed interface Entity<ID> permits
         InvestmentTransaction,
         Account,
-        AccountDailyReport,
+        DailyReport,
         SymbolFixing
 {
     ID id();

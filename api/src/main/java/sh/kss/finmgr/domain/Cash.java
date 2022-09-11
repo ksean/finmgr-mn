@@ -17,18 +17,9 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.service;
+package sh.kss.finmgr.domain;
 
-import sh.kss.finmgr.domain.Account;
+import java.math.BigDecimal;
 
-import java.util.Optional;
-import java.util.Set;
-
-public interface AccountService {
-
-    Set<Account> findAll();
-
-    Optional<Account> findById(Long id);
-
-    Account save(Account account);
-}
+public record Cash(
+        BigDecimal amount) {}

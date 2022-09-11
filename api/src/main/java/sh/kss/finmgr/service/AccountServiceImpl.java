@@ -24,21 +24,27 @@ import lombok.AllArgsConstructor;
 import sh.kss.finmgr.domain.Account;
 import sh.kss.finmgr.persistence.AccountRepository;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Singleton
 @AllArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
-    private final AccountRepository accountRepository;
+    private final AccountRepository repository;
 
     @Override
     public Set<Account> findAll() {
-        return accountRepository.findAll();
+        return repository.findAll();
+    }
+
+    @Override
+    public Optional<Account> findById(Long id) {
+        return repository.findById(id);
     }
 
     @Override
     public Account save(Account account) {
-        return accountRepository.save(account);
+        return repository.save(account);
     }
 }

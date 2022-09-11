@@ -23,7 +23,6 @@ import io.micronaut.data.annotation.Query;
 import io.micronaut.data.jdbc.annotation.JdbcRepository;
 import io.micronaut.data.model.query.builder.sql.Dialect;
 import io.micronaut.data.repository.CrudRepository;
-import sh.kss.finmgr.domain.Symbol;
 import sh.kss.finmgr.domain.SymbolFixing;
 
 import java.time.Instant;
@@ -36,6 +35,6 @@ public interface SymbolFixingRepository
 
     Optional<SymbolFixing> findBySymbolAndDate(String symbol, Instant date);
 
-    @Query("SELECT * FROM SymbolFixing sf WHERE sf.symbol = :symbol AND date <= :date ORDER BY sf.date DESC LIMIT 1")
+    @Query("SELECT * FROM symbolfixing sf WHERE sf.symbol = :symbol AND date <= :date ORDER BY sf.date DESC LIMIT 1")
     Optional<SymbolFixing> findNearestQuote(String symbol, Instant date);
 }

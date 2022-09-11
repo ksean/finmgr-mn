@@ -20,15 +20,15 @@
 package sh.kss.finmgr.service;
 
 import sh.kss.finmgr.domain.Account;
+import sh.kss.finmgr.domain.DailyReport;
 
-import java.util.Optional;
-import java.util.Set;
+import java.util.List;
 
-public interface AccountService {
+public interface DailyReportService {
 
-    Set<Account> findAll();
+    void refresh();
 
-    Optional<Account> findById(Long id);
+    List<DailyReport> findPastYear(Account account);
 
-    Account save(Account account);
+    List<DailyReport> findAllPastYear();
 }

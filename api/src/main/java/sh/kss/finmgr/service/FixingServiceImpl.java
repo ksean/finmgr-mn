@@ -22,13 +22,12 @@ package sh.kss.finmgr.service;
 import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvToBeanBuilder;
 import jakarta.inject.Singleton;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sh.kss.finmgr.api.InvestmentTransactionController;
-import sh.kss.finmgr.domain.Fixing;
-import sh.kss.finmgr.domain.Symbol;
 import sh.kss.finmgr.domain.SymbolFixing;
 import sh.kss.finmgr.domain.SymbolFixingKey;
 import sh.kss.finmgr.persistence.SymbolFixingRepository;
@@ -38,7 +37,9 @@ import java.io.FileReader;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.time.Instant;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 @Singleton
 public class FixingServiceImpl implements FixingService {
