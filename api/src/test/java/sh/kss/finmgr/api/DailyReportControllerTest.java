@@ -17,34 +17,7 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.service.registry;
+package sh.kss.finmgr.api;
 
-import jakarta.inject.Singleton;
-import sh.kss.finmgr.service.parser.FixingParser;
-import sh.kss.finmgr.service.parser.FixingParserImpl;
-
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-
-@Singleton
-public class FixingParserRegistryImpl implements FixingParserRegistry {
-
-    Set<FixingParser> parsers = new HashSet<>();
-
-    public FixingParserRegistryImpl() {
-        this.register(new FixingParserImpl());
-    }
-
-    @Override
-    public void register(FixingParser fixingParser) {
-        parsers.add(fixingParser);
-    }
-
-    @Override
-    public Optional<FixingParser> findParser(String header) {
-        return parsers.stream()
-                .filter(p -> p.canConvert(header))
-                .findFirst();
-    }
+public class DailyReportControllerTest {
 }

@@ -37,10 +37,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static sh.kss.finmgr.domain.AccountType.NON_REGISTERED;
 import static sh.kss.finmgr.domain.Currency.CAD;
 import static sh.kss.finmgr.domain.InvestmentAction.DEPOSIT;
-import static sh.kss.finmgr.domain.Symbol.EMPTY;
 
 @MicronautTest
-class FinmgrTest {
+class FinmgrApplicationTest {
 
     @Inject
     EmbeddedApplication<?> application;
@@ -71,7 +70,7 @@ class FinmgrTest {
                         .transactionDate(Instant.parse("2011-12-21T12:00:00.00Z"))
                         .settlementDate(Instant.parse("2011-12-21T12:00:00.00Z"))
                         .action(DEPOSIT)
-                        .symbol(EMPTY)
+                        .symbol("")
                         .description("foo")
                         .quantity(ZERO)
                         .price(ZERO)

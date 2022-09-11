@@ -17,13 +17,16 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.service;
+package sh.kss.finmgr.service.impl;
 
 
 import jakarta.inject.Singleton;
 import lombok.AllArgsConstructor;
 import sh.kss.finmgr.domain.*;
 import sh.kss.finmgr.persistence.DailyReportRepository;
+import sh.kss.finmgr.service.DailyReportService;
+import sh.kss.finmgr.service.FixingService;
+import sh.kss.finmgr.service.InvestmentTransactionService;
 
 import java.math.BigDecimal;
 import java.time.Instant;

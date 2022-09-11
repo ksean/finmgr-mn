@@ -17,12 +17,13 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.service;
+package sh.kss.finmgr.service.impl;
 
 import org.junit.jupiter.api.Test;
 import sh.kss.finmgr.InvestmentTransactionTest;
 import sh.kss.finmgr.domain.InvestmentTransaction;
 import sh.kss.finmgr.persistence.InvestmentTransactionRepository;
+import sh.kss.finmgr.service.InvestmentTransactionService;
 
 import java.util.List;
 

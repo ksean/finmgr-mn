@@ -17,7 +17,7 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.service;
+package sh.kss.finmgr.service.impl;
 
 import jakarta.inject.Singleton;
 import lombok.AllArgsConstructor;
@@ -26,6 +26,7 @@ import sh.kss.finmgr.domain.Account;
 import sh.kss.finmgr.domain.Fixing;
 import sh.kss.finmgr.domain.InvestmentTransaction;
 import sh.kss.finmgr.domain.SymbolFixing;
+import sh.kss.finmgr.service.*;
 import sh.kss.finmgr.service.parser.FixingParser;
 import sh.kss.finmgr.service.parser.InvestmentTransactionParser;
 import sh.kss.finmgr.service.registry.FixingParserRegistry;

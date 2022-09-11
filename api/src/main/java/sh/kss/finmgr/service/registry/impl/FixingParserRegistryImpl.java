@@ -17,35 +17,35 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.service;
+package sh.kss.finmgr.service.registry.impl;
 
 import jakarta.inject.Singleton;
-import sh.kss.finmgr.domain.InvestmentTransaction;
-import sh.kss.finmgr.persistence.InvestmentTransactionRepository;
+import sh.kss.finmgr.service.parser.FixingParser;
+import sh.kss.finmgr.service.parser.impl.FixingParserImpl;
+import sh.kss.finmgr.service.registry.FixingParserRegistry;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 @Singleton
-public class InvestmentTransactionServiceImpl implements InvestmentTransactionService {
+public class FixingParserRegistryImpl implements FixingParserRegistry {
 
-    private final InvestmentTransactionRepository repository;
+    Set<FixingParser> parsers = new HashSet<>();
 
-    public InvestmentTransactionServiceImpl(InvestmentTransactionRepository repository) {
-        this.repository = repository;
+    public FixingParserRegistryImpl() {
+        this.register(new FixingParserImpl());
     }
 
     @Override
-    public List<InvestmentTransaction> findAll() {
-        return repository.listAllOrderByTransactionDateAsc();
+    public void register(FixingParser fixingParser) {
+        parsers.add(fixingParser);
     }
 
     @Override
-    public List<InvestmentTransaction> getLatest() {
-        return repository.listTop5OrderByTransactionDateDesc();
-    }
-
-    @Override
-    public void saveAll(List<InvestmentTransaction> transactions) {
-        repository.saveAll(transactions);
+    public Optional<FixingParser> findParser(String header) {
+        return parsers.stream()
+                .filter(p -> p.canConvert(header))
+                .findFirst();
     }
 }

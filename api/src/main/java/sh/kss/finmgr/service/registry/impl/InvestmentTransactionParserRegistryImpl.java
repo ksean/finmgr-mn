@@ -17,11 +17,12 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.service.registry;
+package sh.kss.finmgr.service.registry.impl;
 
 import jakarta.inject.Singleton;
 import sh.kss.finmgr.service.parser.InvestmentTransactionParser;
-import sh.kss.finmgr.service.parser.QuestradeInvestmentTransactionParserImpl;
+import sh.kss.finmgr.service.parser.impl.QuestradeInvestmentTransactionParserImpl;
+import sh.kss.finmgr.service.registry.InvestmentTransactionParserRegistry;
 
 import java.util.HashSet;
 import java.util.Optional;

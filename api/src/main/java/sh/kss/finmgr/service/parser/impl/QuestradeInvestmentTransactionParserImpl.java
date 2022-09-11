@@ -17,7 +17,7 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.service.parser;
+package sh.kss.finmgr.service.parser.impl;
 
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -25,6 +25,7 @@ import jakarta.inject.Singleton;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import sh.kss.finmgr.domain.*;
+import sh.kss.finmgr.service.parser.InvestmentTransactionParser;
 
 import java.io.BufferedReader;
 import java.math.BigDecimal;

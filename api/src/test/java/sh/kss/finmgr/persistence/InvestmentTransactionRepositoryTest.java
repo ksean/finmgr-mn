@@ -17,34 +17,7 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.service;
+package sh.kss.finmgr.persistence;
 
-import jakarta.inject.Singleton;
-import lombok.AllArgsConstructor;
-import sh.kss.finmgr.domain.Account;
-import sh.kss.finmgr.persistence.AccountRepository;
-
-import java.util.Optional;
-import java.util.Set;
-
-@Singleton
-@AllArgsConstructor
-public class AccountServiceImpl implements AccountService {
-
-    private final AccountRepository repository;
-
-    @Override
-    public Set<Account> findAll() {
-        return repository.findAll();
-    }
-
-    @Override
-    public Optional<Account> findById(Long id) {
-        return repository.findById(id);
-    }
-
-    @Override
-    public Account save(Account account) {
-        return repository.save(account);
-    }
+public class InvestmentTransactionRepositoryTest {
 }

@@ -17,7 +17,7 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.service;
+package sh.kss.finmgr.service.impl;
 
 import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import sh.kss.finmgr.domain.SymbolFixing;
 import sh.kss.finmgr.domain.SymbolFixingKey;
 import sh.kss.finmgr.persistence.SymbolFixingRepository;
+import sh.kss.finmgr.service.FixingService;
 
 import java.io.File;
 import java.io.FileReader;

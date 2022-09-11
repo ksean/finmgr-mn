@@ -28,7 +28,6 @@ import java.util.List;
 import static java.math.BigDecimal.ZERO;
 import static sh.kss.finmgr.domain.Currency.CAD;
 import static sh.kss.finmgr.domain.InvestmentAction.DEPOSIT;
-import static sh.kss.finmgr.domain.Symbol.EMPTY;
 
 public abstract class InvestmentTransactionTest {
 
@@ -44,7 +43,7 @@ public abstract class InvestmentTransactionTest {
                 .transactionDate(DEC_21)
                 .settlementDate(DEC_21)
                 .action(DEPOSIT)
-                .symbol(EMPTY)
+                .symbol("")
                 .description("deposit on dec 21")
                 .quantity(ZERO)
                 .price(ZERO)

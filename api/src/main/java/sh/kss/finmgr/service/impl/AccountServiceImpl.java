@@ -17,24 +17,35 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.service.parser;
+package sh.kss.finmgr.service.impl;
 
-import sh.kss.finmgr.domain.Fixing;
+import jakarta.inject.Singleton;
+import lombok.AllArgsConstructor;
+import sh.kss.finmgr.domain.Account;
+import sh.kss.finmgr.persistence.AccountRepository;
+import sh.kss.finmgr.service.AccountService;
 
-import java.io.BufferedReader;
+import java.util.Optional;
 import java.util.Set;
 
-public class FixingParserImpl implements FixingParser {
+@Singleton
+@AllArgsConstructor
+public class AccountServiceImpl implements AccountService {
+
+    private final AccountRepository repository;
 
     @Override
-    public boolean canConvert(String header) {
-        String trimmed = header.trim().toLowerCase();
-        return trimmed.equals("date,close") ||
-                trimmed.equals("date,close/last");
+    public Set<Account> findAll() {
+        return repository.findAll();
     }
 
     @Override
-    public Set<Fixing> parse(BufferedReader reader) {
-        return Set.of();
+    public Optional<Account> findById(Long id) {
+        return repository.findById(id);
+    }
+
+    @Override
+    public Account save(Account account) {
+        return repository.save(account);
     }
 }
