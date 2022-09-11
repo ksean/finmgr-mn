@@ -21,6 +21,7 @@ package sh.kss.finmgr.service;
 
 import sh.kss.finmgr.domain.InvestmentTransaction;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface InvestmentTransactionService {
@@ -29,5 +30,5 @@ public interface InvestmentTransactionService {
 
     List<InvestmentTransaction> getLatest();
 
-    void saveAll(List<InvestmentTransaction> transactions);
+    void saveAll(Collection<InvestmentTransaction> transactions);
 }

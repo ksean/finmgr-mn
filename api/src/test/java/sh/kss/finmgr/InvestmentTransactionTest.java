@@ -19,6 +19,7 @@
  */
 package sh.kss.finmgr;
 
+import sh.kss.finmgr.domain.Account;
 import sh.kss.finmgr.domain.InvestmentTransaction;
 
 import java.math.BigDecimal;
@@ -26,8 +27,10 @@ import java.time.Instant;
 import java.util.List;
 
 import static java.math.BigDecimal.ZERO;
+import static sh.kss.finmgr.domain.AccountType.NON_REGISTERED;
+import static sh.kss.finmgr.domain.AccountType.TFSA;
 import static sh.kss.finmgr.domain.Currency.CAD;
-import static sh.kss.finmgr.domain.InvestmentAction.DEPOSIT;
+import static sh.kss.finmgr.domain.InvestmentAction.*;
 
 public abstract class InvestmentTransactionTest {
 
@@ -52,4 +55,84 @@ public abstract class InvestmentTransactionTest {
                 .currency(CAD)
                 .build();
     }
+
+    protected static final Account MARGIN_ACCOUNT = Account.builder()
+            .accountType(NON_REGISTERED)
+            .alias("Margin")
+            .value("12345679")
+            .build();
+
+    protected static final Account TFSA_ACCOUNT = Account.builder()
+            .accountType(TFSA)
+            .alias("TFSA")
+            .value("12345678")
+            .build();
+
+    protected static final List<InvestmentTransaction> TEST_TRANSACTIONS = List.of(
+            InvestmentTransaction.builder()
+                    .transactionDate(Instant.parse("2021-12-24T00:00:00Z"))
+                    .settlementDate(Instant.parse("2021-12-24T00:00:00Z"))
+                    .action(DEPOSIT)
+                    .symbol("")
+                    .description("CONT 1234567890")
+                    .quantity(ZERO)
+                    .price(ZERO)
+                    .commission(ZERO)
+                    .net(new BigDecimal(1500))
+                    .currency(CAD)
+                    .account(TFSA_ACCOUNT)
+                    .build(),
+            InvestmentTransaction.builder()
+                    .transactionDate(Instant.parse("2021-12-24T00:00:00Z"))
+                    .settlementDate(Instant.parse("2021-12-24T00:00:00Z"))
+                    .action(DEPOSIT)
+                    .symbol("")
+                    .description("1234567891 CIBC DIR DEP")
+                    .quantity(ZERO)
+                    .price(ZERO)
+                    .commission(ZERO)
+                    .net(new BigDecimal(1500))
+                    .currency(CAD)
+                    .account(MARGIN_ACCOUNT)
+                    .build(),
+            InvestmentTransaction.builder()
+                    .transactionDate(Instant.parse("2022-01-06T00:00:00Z"))
+                    .settlementDate(Instant.parse("2022-01-11T00:00:00Z"))
+                    .action(TRADE)
+                    .symbol("BB")
+                    .description("RESEARCH IN MOTION LTD AS AGENTS, WE HAVE BOUGHT OR SOLD FOR YOUR ACCOUNT")
+                    .quantity(new BigDecimal(94))
+                    .price(new BigDecimal("15.88"))
+                    .commission(new BigDecimal("-5.28"))
+                    .net(new BigDecimal(-1498))
+                    .currency(CAD)
+                    .account(MARGIN_ACCOUNT)
+                    .build(),
+            InvestmentTransaction.builder()
+                    .transactionDate(Instant.parse("2022-01-12T00:00:00Z"))
+                    .settlementDate(Instant.parse("2022-01-12T00:00:00Z"))
+                    .action(FEE_OR_REBATE)
+                    .symbol("")
+                    .description("AFFLT REBATE")
+                    .quantity(ZERO)
+                    .price(ZERO)
+                    .commission(ZERO)
+                    .net(new BigDecimal("4.95"))
+                    .currency(CAD)
+                    .account(TFSA_ACCOUNT)
+                    .build(),
+            InvestmentTransaction.builder()
+                    .transactionDate(Instant.parse("2022-01-12T00:00:00Z"))
+                    .settlementDate(Instant.parse("2022-01-17T00:00:00Z"))
+                    .action(TRADE)
+                    .symbol("BB")
+                    .description("RESEARCH IN MOTION LTD AS AGENTS, WE HAVE BOUGHT OR SOLD FOR YOUR ACCOUNT")
+                    .quantity(new BigDecimal(-94))
+                    .price(new BigDecimal("16.60"))
+                    .commission(new BigDecimal("-5.28"))
+                    .net(new BigDecimal("1555.12"))
+                    .currency(CAD)
+                    .account(MARGIN_ACCOUNT)
+                    .build()
+            );
 }

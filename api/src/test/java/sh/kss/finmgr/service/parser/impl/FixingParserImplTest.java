@@ -17,24 +17,10 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.domain;
+package sh.kss.finmgr.service.parser.impl;
 
-import io.micronaut.core.annotation.Nullable;
-import io.micronaut.data.annotation.GeneratedValue;
-import io.micronaut.data.annotation.Id;
-import io.micronaut.data.annotation.MappedEntity;
-import lombok.Builder;
-import lombok.With;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 
-@MappedEntity
-@Builder
-@With
-public record Account(
-        @GeneratedValue
-        @Id
-        @Nullable
-        Long id,
-        String value,
-        String alias,
-        AccountType accountType) implements Entity<Long> {
+@MicronautTest
+public class FixingParserImplTest {
 }

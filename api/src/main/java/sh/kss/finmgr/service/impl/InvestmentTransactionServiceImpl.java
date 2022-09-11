@@ -24,6 +24,7 @@ import sh.kss.finmgr.domain.InvestmentTransaction;
 import sh.kss.finmgr.persistence.InvestmentTransactionRepository;
 import sh.kss.finmgr.service.InvestmentTransactionService;
 
+import java.util.Collection;
 import java.util.List;
 
 @Singleton
@@ -46,7 +47,7 @@ public class InvestmentTransactionServiceImpl implements InvestmentTransactionSe
     }
 
     @Override
-    public void saveAll(List<InvestmentTransaction> transactions) {
+    public void saveAll(Collection<InvestmentTransaction> transactions) {
         repository.saveAll(transactions);
     }
 }
