@@ -30,6 +30,11 @@ export default function PortfolioHistory() {
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
 
+    const formatDate = (string) => {
+        const date = new Date(string * 1000)
+        return date.toISOString().substring(0, 10)
+    }
+
     useEffect(() => {
         fetch('/report/latest', {
             mode: 'no-cors'
@@ -38,7 +43,14 @@ export default function PortfolioHistory() {
                 console.log(response)
                 if (response.status === 200) {
                     response.json().then (data => {
-                        setData(data)
+                        const formattedData = []
+                        data.forEach(d => {
+                            formattedData.push({
+                                date: formatDate(d.date),
+                                amount: d.totalAmount
+                            })
+                        })
+                        setData(formattedData)
                         setIsLoading(false)
                     })
                 } else if (response.status === 500) {
@@ -56,46 +68,54 @@ export default function PortfolioHistory() {
             })
         }, []);
 
-    return (
-        <React.Fragment>
-            <Title>Portfolio History</Title>
-            <ResponsiveContainer>
-                <LineChart
-                    data={data}
-                    width={500}
-                    height={500}
-                    margin={{
-                        top: 16,
-                        right: 16,
-                        bottom: 0,
-                        left: 24,
-                    }}>
-                    <XAxis
-                        dataKey="date"
-                        stroke={theme.palette.text.secondary}
-                        style={theme.typography.body2}/>
-                    <YAxis
-                        stroke={theme.palette.text.secondary}
-                        style={theme.typography.body2}>
-                        <Label
-                            angle={270}
-                            position="left"
-                            style={{
-                                textAnchor: 'middle',
-                                fill: theme.palette.text.primary,
-                                ...theme.typography.body1,
-                            }}>
-                            Holdings ($)
-                        </Label>
-                    </YAxis>
-                    <Line
-                        isAnimationActive={false}
-                        type="monotone"
-                        dataKey="amount"
-                        stroke={theme.palette.primary.main}
-                        dot={false}/>
-                </LineChart>
-            </ResponsiveContainer>
-        </React.Fragment>
-    );
+    if (error) {
+        return <div>Error: {error.message}</div>
+    } else if (isLoading) {
+        return <div>Loading...</div>
+    } else {
+        return (
+            <React.Fragment>
+                <Title>Portfolio History</Title>
+                <ResponsiveContainer>
+                    <LineChart
+                        data={data}
+                        width={500}
+                        height={600}
+                        margin={{
+                            top: 16,
+                            right: 16,
+                            bottom: 24,
+                            left: 24,
+                        }}>
+                        <XAxis
+                            dataKey="date"
+                            stroke={theme.palette.text.secondary}
+                            style={theme.typography.body2}
+                            dy={16}
+                            angle={320}/>
+                        <YAxis
+                            stroke={theme.palette.text.secondary}
+                            style={theme.typography.body2}>
+                            <Label
+                                angle={270}
+                                position="left"
+                                style={{
+                                    textAnchor: 'middle',
+                                    fill: theme.palette.text.primary,
+                                    ...theme.typography.body1,
+                                }}>
+                                Holdings ($)
+                            </Label>
+                        </YAxis>
+                        <Line
+                            isAnimationActive={false}
+                            type="monotone"
+                            dataKey="amount"
+                            stroke={theme.palette.primary.main}
+                            dot={false}/>
+                    </LineChart>
+                </ResponsiveContainer>
+            </React.Fragment>
+        );
+    }
 }
