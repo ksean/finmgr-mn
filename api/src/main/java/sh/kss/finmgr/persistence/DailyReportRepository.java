@@ -37,10 +37,10 @@ public interface DailyReportRepository
 
 
     @Join("account")
-    @Query("SELECT * FROM dailyreport dr WHERE dr.account = :account AND dr.date >= :date ORDER BY dr.date")
+    @Query("SELECT * FROM daily_report dr WHERE dr.account = :account AND dr.date >= :date ORDER BY dr.date")
     List<DailyReport> findByAccountAndDateGreaterThan(Account account, Instant date);
 
     @Join("account")
-    @Query("SELECT * FROM dailyreport dr WHERE dr.date >= :date ORDER BY dr.date")
+    @Query("SELECT * FROM daily_report dr WHERE dr.date >= :date ORDER BY dr.date")
     List<DailyReport> findByDateGreaterThan(Instant date);
 }

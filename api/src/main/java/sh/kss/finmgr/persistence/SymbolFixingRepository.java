@@ -35,6 +35,6 @@ public interface SymbolFixingRepository
 
     Optional<SymbolFixing> findBySymbolAndDate(String symbol, Instant date);
 
-    @Query("SELECT * FROM symbolfixing sf WHERE sf.symbol = :symbol AND date <= :date ORDER BY sf.date DESC LIMIT 1")
+    @Query("SELECT * FROM symbol_fixing sf WHERE sf.symbol = :symbol AND date <= :date ORDER BY sf.date DESC LIMIT 1")
     Optional<SymbolFixing> findNearestQuote(String symbol, Instant date);
 }

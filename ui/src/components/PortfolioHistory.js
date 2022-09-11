@@ -18,34 +18,43 @@
     sean <at> kennedy <dot> software
  */
 import * as React from 'react';
+import {useEffect, useState} from 'react';
 import { useTheme } from '@mui/material/styles';
-import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
+import {Label, Line, LineChart, ResponsiveContainer, XAxis, YAxis} from 'recharts';
 import Title from '../Title';
 
 export default function PortfolioHistory() {
-    const theme = useTheme();
-    const data = [
-        {
-            date: '2022-08-01',
-            amount: 1000
-        },
-        {
-            date: '2022-08-02',
-            amount: 1200
-        },
-        {
-            date: '2022-08-03',
-            amount: 1300
-        },
-        {
-            date: '2022-08-04',
-            amount: 1600
-        },
-        {
-            date: '2022-08-05',
-            amount: 2000
-        }
-    ];
+    const theme = useTheme()
+
+    const [data, setData] = useState([])
+    const [error, setError] = useState(null)
+    const [isLoading, setIsLoading] = useState(true)
+
+    useEffect(() => {
+        fetch('/report/latest', {
+            mode: 'no-cors'
+        })
+            .then(response => {
+                console.log(response)
+                if (response.status === 200) {
+                    response.json().then (data => {
+                        setData(data)
+                        setIsLoading(false)
+                    })
+                } else if (response.status === 500) {
+                    setIsLoading(false)
+                    setError({'message': 'API server isn\'t started'})
+                } else {
+                    setIsLoading(false)
+                    setError(response)
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                setIsLoading(false)
+                setError(error)
+            })
+        }, []);
 
     return (
         <React.Fragment>
