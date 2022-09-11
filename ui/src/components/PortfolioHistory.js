@@ -18,9 +18,9 @@
     sean <at> kennedy <dot> software
  */
 import * as React from 'react';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
-import {Label, Line, LineChart, ResponsiveContainer, XAxis, YAxis} from 'recharts';
+import { Label, Line, LineChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
 import Title from '../Title';
 
 export default function PortfolioHistory() {
@@ -107,6 +107,7 @@ export default function PortfolioHistory() {
                                 Holdings ($)
                             </Label>
                         </YAxis>
+                        <Tooltip labelFormatter={d => d} />
                         <Line
                             isAnimationActive={false}
                             type="monotone"

@@ -76,21 +76,20 @@ public class DailyReportServiceImpl implements DailyReportService {
                 if (transactionsByDate.containsKey(cursorDate)) {
                     for (InvestmentTransaction transaction: transactionsByDate.get(cursorDate)) {
                         switch (transaction.action()) {
+                            case WITHDRAWAL:
                             case DEPOSIT:
-                                latestCash = latestCash.add(transaction.net());
                                 cashFlow = cashFlow.add(transaction.net());
+                            case DISTRIBUTION:
+                            case FEE_OR_REBATE:
+                                latestCash = latestCash.add(transaction.net());
                                 break;
                             case TRADE:
-                            case DISTRIBUTION:
                             case JOURNAL:
-                            case WITHDRAWAL:
-                            case FEE_OR_REBATE:
                             case FX_CONVERSION:
                             case CORPORATE_ACTION:
                             case REINVESTMENT:
                             default:
-                                    System.out.println("foo");
-                                    break;
+                                break;
                         }
                     }
                 }
