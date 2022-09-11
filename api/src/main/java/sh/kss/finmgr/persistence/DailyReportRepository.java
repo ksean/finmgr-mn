@@ -35,12 +35,9 @@ import java.util.UUID;
 public interface DailyReportRepository
         extends CrudRepository<DailyReport, UUID> {
 
+    @Join("account")
+    List<DailyReport> findAllByAccountAndDateAfter(Account account, Instant date);
 
     @Join("account")
-    @Query("SELECT * FROM daily_report dr WHERE dr.account = :account AND dr.date >= :date ORDER BY dr.date")
-    List<DailyReport> findByAccountAndDateGreaterThan(Account account, Instant date);
-
-    @Join("account")
-    @Query("SELECT * FROM daily_report dr WHERE dr.date >= :date ORDER BY dr.date")
-    List<DailyReport> findByDateGreaterThan(Instant date);
+    List<DailyReport> findAllByDateAfter(Instant date);
 }

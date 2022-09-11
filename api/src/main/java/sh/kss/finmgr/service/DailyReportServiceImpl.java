@@ -114,12 +114,12 @@ public class DailyReportServiceImpl implements DailyReportService {
 
     @Override
     public List<DailyReport> findPastYear(Account account) {
-        return repository.findByAccountAndDateGreaterThan(account, Instant.now().minus(365, ChronoUnit.DAYS)); // Doesn't support YEARS
+        return repository.findAllByAccountAndDateAfter(account, Instant.now().minus(365, ChronoUnit.DAYS)); // Doesn't support YEARS
     }
 
     @Override
     public List<DailyReport> findAllPastYear() {
-        return repository.findByDateGreaterThan(Instant.now().minus(365, ChronoUnit.DAYS)); // Doesn't support YEARS
+        return repository.findAllByDateAfter(Instant.now().minus(365, ChronoUnit.DAYS)); // Doesn't support YEARS
     }
 
     private BigDecimal valueHoldings(Collection<Holding> holdings, Instant date) {
