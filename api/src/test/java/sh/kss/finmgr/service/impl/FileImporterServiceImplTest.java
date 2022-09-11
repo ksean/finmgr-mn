@@ -19,5 +19,31 @@
  */
 package sh.kss.finmgr.service.impl;
 
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import sh.kss.finmgr.service.*;
+import sh.kss.finmgr.service.registry.FixingParserRegistry;
+import sh.kss.finmgr.service.registry.InvestmentTransactionParserRegistry;
+
+import static org.mockito.Mockito.mock;
+
+@MicronautTest
 public class FileImporterServiceImplTest {
+
+    InvestmentTransactionService transactionService = mock(InvestmentTransactionService.class);
+    AccountService accountService = mock(AccountService.class);
+    FixingService fixingService = mock(FixingService.class);
+    InvestmentTransactionParserRegistry investmentTransactionParserRegistry = mock(InvestmentTransactionParserRegistry.class);
+    FixingParserRegistry fixingParserRegistry = mock(FixingParserRegistry.class);
+    DailyReportService dailyReportService = mock(DailyReportService.class);
+
+    FileImporterService service = new FileImporterServiceImpl(
+            transactionService,
+            accountService,
+            fixingService,
+            investmentTransactionParserRegistry,
+            fixingParserRegistry,
+            dailyReportService
+    );
+
+
 }

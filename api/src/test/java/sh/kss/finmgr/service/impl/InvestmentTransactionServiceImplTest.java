@@ -19,6 +19,7 @@
  */
 package sh.kss.finmgr.service.impl;
 
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
 import sh.kss.finmgr.InvestmentTransactionTest;
 import sh.kss.finmgr.domain.InvestmentTransaction;
@@ -31,6 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@MicronautTest
 class InvestmentTransactionServiceImplTest extends InvestmentTransactionTest {
 
     InvestmentTransactionRepository repository = mock(InvestmentTransactionRepository.class);
