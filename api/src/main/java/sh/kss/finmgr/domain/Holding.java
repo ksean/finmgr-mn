@@ -26,5 +26,5 @@ import java.math.BigDecimal;
 @Builder
 public record Holding(
         Symbol symbol,
-        BigDecimal amount,
+        BigDecimal quantity,
         BigDecimal averageCost) {}
