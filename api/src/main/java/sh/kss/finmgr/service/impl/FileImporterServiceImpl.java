@@ -47,7 +47,7 @@ public class FileImporterServiceImpl implements FileImporterService {
 
     private final InvestmentTransactionService transactionService;
     private final AccountService accountService;
-    private final FixingService fixingService;
+    private final SymbolFixingService symbolFixingService;
     private final InvestmentTransactionParserRegistry investmentTransactionParserRegistry;
     private final FixingParserRegistry fixingParserRegistry;
     private final DailyReportService dailyReportService;
@@ -108,6 +108,6 @@ public class FileImporterServiceImpl implements FileImporterService {
                         .build()
                 )
                 .collect(Collectors.toSet());
-        fixingService.saveAll(symbolFixings);
+        symbolFixingService.saveAll(symbolFixings);
     }
 }

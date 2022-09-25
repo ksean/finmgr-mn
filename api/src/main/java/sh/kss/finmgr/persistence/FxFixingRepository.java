@@ -23,18 +23,18 @@ import io.micronaut.data.annotation.Query;
 import io.micronaut.data.jdbc.annotation.JdbcRepository;
 import io.micronaut.data.model.query.builder.sql.Dialect;
 import io.micronaut.data.repository.CrudRepository;
-import sh.kss.finmgr.domain.SymbolFixing;
+import sh.kss.finmgr.domain.FxFixing;
 
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
 @JdbcRepository(dialect = Dialect.H2)
-public interface SymbolFixingRepository
-        extends CrudRepository<SymbolFixing, UUID> {
+public interface FxFixingRepository
+        extends CrudRepository<FxFixing, UUID> {
 
-    Optional<SymbolFixing> findBySymbolAndDate(String symbol, Instant date);
+    Optional<FxFixing> findByCurrencyPairAndDate(String currencyPair, Instant date);
 
-    @Query("SELECT * FROM symbol_fixing sf WHERE sf.symbol = :symbol AND sf.date <= :date ORDER BY sf.date DESC LIMIT 1")
-    Optional<SymbolFixing> findNearestQuote(String symbol, Instant date);
+    @Query("SELECT * FROM fx_fixing sf WHERE sf.currencyPair = :currencyPair AND sf.date <= :date ORDER BY sf.date DESC LIMIT 1")
+    Optional<FxFixing> findNearestQuote(String currencyPair, Instant date);
 }

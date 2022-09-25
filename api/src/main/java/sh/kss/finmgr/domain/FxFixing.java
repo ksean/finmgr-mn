@@ -17,18 +17,27 @@
 
     sean <at> kennedy <dot> software
  */
-package sh.kss.finmgr.service;
+package sh.kss.finmgr.domain;
 
-import sh.kss.finmgr.domain.SymbolFixing;
-import sh.kss.finmgr.domain.SymbolFixingKey;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import io.micronaut.data.annotation.AutoPopulated;
+import io.micronaut.data.annotation.Id;
+import io.micronaut.data.annotation.MappedEntity;
+import lombok.Builder;
 
-import java.util.Collection;
-import java.util.Optional;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.UUID;
 
-public interface FixingService {
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.ALWAYS;
 
-    void saveAll(Collection<SymbolFixing> symbolFixings);
-
-    Optional<SymbolFixing> find(SymbolFixingKey key);
-    Optional<SymbolFixing> findNearest(SymbolFixingKey key);
-}
+@MappedEntity
+@Builder
+@JsonInclude(ALWAYS)
+public record FxFixing(
+        @Id
+        @AutoPopulated
+        UUID id,
+        String currencyPair,
+        Instant date,
+        BigDecimal amount) implements Entity<UUID> {}

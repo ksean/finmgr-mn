@@ -46,7 +46,7 @@ public class FileImporterServiceImplTest extends InvestmentTransactionTest {
 
     InvestmentTransactionService transactionService = mock(InvestmentTransactionService.class);
     AccountService accountService = mock(AccountService.class);
-    FixingService fixingService = mock(FixingService.class);
+    SymbolFixingService symbolFixingService = mock(SymbolFixingService.class);
     InvestmentTransactionParserRegistry investmentTransactionParserRegistry = mock(InvestmentTransactionParserRegistry.class);
     FixingParserRegistry fixingParserRegistry = mock(FixingParserRegistry.class);
     DailyReportService dailyReportService = mock(DailyReportService.class);
@@ -55,7 +55,7 @@ public class FileImporterServiceImplTest extends InvestmentTransactionTest {
     FileImporterService service = new FileImporterServiceImpl(
             transactionService,
             accountService,
-            fixingService,
+            symbolFixingService,
             investmentTransactionParserRegistry,
             fixingParserRegistry,
             dailyReportService
@@ -98,7 +98,7 @@ public class FileImporterServiceImplTest extends InvestmentTransactionTest {
         verifyNoMoreInteractions(
                 transactionService,
                 accountService,
-                fixingService,
+                symbolFixingService,
                 investmentTransactionParserRegistry,
                 fixingParserRegistry,
                 dailyReportService

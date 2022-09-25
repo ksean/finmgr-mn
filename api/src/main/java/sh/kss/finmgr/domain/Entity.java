@@ -23,7 +23,8 @@ public sealed interface Entity<ID> permits
         InvestmentTransaction,
         Account,
         DailyReport,
-        SymbolFixing
+        SymbolFixing,
+        FxFixing
 {
     ID id();
 }

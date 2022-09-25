@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 import sh.kss.finmgr.domain.SymbolFixing;
 import sh.kss.finmgr.domain.SymbolFixingKey;
 import sh.kss.finmgr.persistence.SymbolFixingRepository;
-import sh.kss.finmgr.service.FixingService;
+import sh.kss.finmgr.service.SymbolFixingService;
 
 import java.io.File;
 import java.io.FileReader;
@@ -43,14 +43,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Singleton
-public class FixingServiceImpl implements FixingService {
+public class SymbolFixingServiceImpl implements SymbolFixingService {
 
-    private static final Logger log = LoggerFactory.getLogger(FixingServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(SymbolFixingServiceImpl.class);
 
     private final SymbolFixingRepository repository;
 
     @SneakyThrows
-    public FixingServiceImpl(SymbolFixingRepository repository) {
+    public SymbolFixingServiceImpl(SymbolFixingRepository repository) {
         this.repository = repository;
 
         for (File file: getFixingFiles()) {
@@ -90,7 +90,7 @@ public class FixingServiceImpl implements FixingService {
 
     private static File[] getFixingFiles() {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        URL url = loader.getResource("fixings");
+        URL url = loader.getResource("close_fixings");
         assert url != null;
 
         return new File(url.getPath()).listFiles();

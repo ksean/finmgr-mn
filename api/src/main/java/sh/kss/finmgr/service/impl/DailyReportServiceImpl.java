@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 import sh.kss.finmgr.domain.*;
 import sh.kss.finmgr.persistence.DailyReportRepository;
 import sh.kss.finmgr.service.DailyReportService;
-import sh.kss.finmgr.service.FixingService;
+import sh.kss.finmgr.service.SymbolFixingService;
 import sh.kss.finmgr.service.InvestmentTransactionService;
 
 import java.math.BigDecimal;
@@ -50,7 +50,7 @@ public class DailyReportServiceImpl implements DailyReportService {
 
     private final DailyReportRepository repository;
     private final InvestmentTransactionService investmentTransactionService;
-    private final FixingService fixingService;
+    private final SymbolFixingService symbolFixingService;
     private static final ZoneId zoneId = ZoneId.of("America/Toronto");
 
 
@@ -179,7 +179,7 @@ public class DailyReportServiceImpl implements DailyReportService {
     private BigDecimal valueHoldings(Collection<Holding> holdings, Instant date) {
         BigDecimal totalValue = ZERO;
         for (Holding holding: holdings) {
-            BigDecimal fixingValue = fixingService.findNearest(new SymbolFixingKey(holding.symbol(), date))
+            BigDecimal fixingValue = symbolFixingService.findNearest(new SymbolFixingKey(holding.symbol(), date))
                             .orElse(new SymbolFixing(null, holding.symbol().value(), date, ZERO))
                             .amount();
             BigDecimal holdingValue = holding.quantity().multiply(fixingValue);
