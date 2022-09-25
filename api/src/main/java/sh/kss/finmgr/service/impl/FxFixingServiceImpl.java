@@ -25,6 +25,7 @@ import jakarta.inject.Singleton;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sh.kss.finmgr.domain.CurrencyPair;
@@ -41,6 +42,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 @Singleton
 public class FxFixingServiceImpl implements FxFixingService {
 
@@ -52,8 +55,11 @@ public class FxFixingServiceImpl implements FxFixingService {
     public FxFixingServiceImpl(FxFixingRepository repository) {
         this.repository = repository;
 
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream("fx_fixings/fx_2011-2022.csv")))) {
-            log.info("Importing fx fixings");
+            log.info("Importing FxFixings");
             List<ResourceFixing> fixings = new CsvToBeanBuilder(reader)
                     .withType(ResourceFixing.class)
                     .withSeparator(',')
@@ -63,11 +69,15 @@ public class FxFixingServiceImpl implements FxFixingService {
 
             List<FxFixing> fxFixings = fixings.stream()
                     .filter(fixing -> !fixing.getRate().equals("null"))
-                    .map(fixing -> toFxFixing(fixing))
+                    .map(this::toFxFixing)
                     .toList();
 
             repository.saveAll(fxFixings);
+            log.info("Saved: " + fxFixings.size() + " fx rows");
         }
+
+        stopWatch.stop();
+        log.info("Imported FxFixings in: " + stopWatch.getTime(MILLISECONDS) + " milliseconds");
     }
 
     @Override
@@ -87,7 +97,7 @@ public class FxFixingServiceImpl implements FxFixingService {
 
     @Data
     @NoArgsConstructor
-    private static class ResourceFixing {
+    public static class ResourceFixing {
         @CsvBindByPosition(position = 0) String date;
         @CsvBindByPosition(position = 1) String rate;
     }

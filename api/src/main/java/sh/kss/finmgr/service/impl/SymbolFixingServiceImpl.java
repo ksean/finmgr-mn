@@ -80,6 +80,7 @@ public class SymbolFixingServiceImpl implements SymbolFixingService {
                                 .toList();
 
                         repository.saveAll(symbolFixings);
+                        log.info("Saved: " + symbolFixings.size() + " " + symbolStr + " fixing rows");
                     } catch (IOException e) {
                         log.error(e.getMessage());
                     }

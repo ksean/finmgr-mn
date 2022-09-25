@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import sh.kss.finmgr.domain.*;
 import sh.kss.finmgr.persistence.DailyReportRepository;
 import sh.kss.finmgr.service.DailyReportService;
+import sh.kss.finmgr.service.FxFixingService;
 import sh.kss.finmgr.service.SymbolFixingService;
 import sh.kss.finmgr.service.InvestmentTransactionService;
 
@@ -51,6 +52,7 @@ public class DailyReportServiceImpl implements DailyReportService {
     private final DailyReportRepository repository;
     private final InvestmentTransactionService investmentTransactionService;
     private final SymbolFixingService symbolFixingService;
+    private final FxFixingService fxFixingService;
     private static final ZoneId zoneId = ZoneId.of("America/Toronto");
 
 
