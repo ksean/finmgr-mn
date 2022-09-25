@@ -36,9 +36,11 @@ import sh.kss.finmgr.service.SymbolFixingService;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -59,24 +61,29 @@ public class SymbolFixingServiceImpl implements SymbolFixingService {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
-        for (File file: getFixingFiles()) {
-            String symbolStr = file.getName();
-            log.info("Importing resource file: {}", symbolStr);
-            FileReader reader = new FileReader(file);
-            List<ResourceFixing> fixings = new CsvToBeanBuilder(reader)
-                    .withType(ResourceFixing.class)
-                    .withSeparator(',')
-                    .withSkipLines(1)
-                    .build()
-                    .parse();
+        Arrays.stream(getFixingFiles())
+                .parallel()
+                .forEach(file -> {
+                    String symbolStr = file.getName();
+                    log.info("Importing SymbolFixing file: {}", symbolStr);
+                    try (FileReader reader = new FileReader(file)) {
+                        List<ResourceFixing> fixings = new CsvToBeanBuilder(reader)
+                                .withType(ResourceFixing.class)
+                                .withSeparator(',')
+                                .withSkipLines(1)
+                                .build()
+                                .parse();
 
-            List<SymbolFixing> symbolFixings = fixings.stream()
-                    .filter(fixing -> !fixing.price.equals("null"))
-                    .map(fixing -> toSymbolFixing(symbolStr, fixing))
-                    .toList();
+                        List<SymbolFixing> symbolFixings = fixings.stream()
+                                .filter(fixing -> !fixing.price.equals("null"))
+                                .map(fixing -> toSymbolFixing(symbolStr, fixing))
+                                .toList();
 
-            repository.saveAll(symbolFixings);
-        }
+                        repository.saveAll(symbolFixings);
+                    } catch (IOException e) {
+                        log.error(e.getMessage());
+                    }
+                });
 
         stopWatch.stop();
         log.info("Imported SymbolFixings in: " + stopWatch.getTime(MILLISECONDS) + " milliseconds");
@@ -98,8 +105,7 @@ public class SymbolFixingServiceImpl implements SymbolFixingService {
     }
 
     private static File[] getFixingFiles() {
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        URL url = loader.getResource("close_fixings");
+        URL url = ClassLoader.getSystemResource("close_fixings");
         assert url != null;
 
         return new File(url.getPath()).listFiles();
