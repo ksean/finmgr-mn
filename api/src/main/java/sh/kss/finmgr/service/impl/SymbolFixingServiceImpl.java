@@ -26,6 +26,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sh.kss.finmgr.domain.SymbolFixing;
@@ -42,6 +43,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 @Singleton
 public class SymbolFixingServiceImpl implements SymbolFixingService {
 
@@ -52,6 +55,9 @@ public class SymbolFixingServiceImpl implements SymbolFixingService {
     @SneakyThrows
     public SymbolFixingServiceImpl(SymbolFixingRepository repository) {
         this.repository = repository;
+
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
 
         for (File file: getFixingFiles()) {
             String symbolStr = file.getName();
@@ -71,6 +77,9 @@ public class SymbolFixingServiceImpl implements SymbolFixingService {
 
             repository.saveAll(symbolFixings);
         }
+
+        stopWatch.stop();
+        log.info("Imported SymbolFixings in: " + stopWatch.getTime(MILLISECONDS) + " milliseconds");
     }
 
     @Override
@@ -98,7 +107,7 @@ public class SymbolFixingServiceImpl implements SymbolFixingService {
 
     @Data
     @NoArgsConstructor
-    private static class ResourceFixing {
+    public static class ResourceFixing {
         @CsvBindByPosition(position = 0) String date;
         @CsvBindByPosition(position = 1) String price;
     }
