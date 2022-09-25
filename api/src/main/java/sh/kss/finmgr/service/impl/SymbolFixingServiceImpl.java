@@ -98,7 +98,7 @@ public class SymbolFixingServiceImpl implements SymbolFixingService {
 
     @Data
     @NoArgsConstructor
-    public static class ResourceFixing {
+    private static class ResourceFixing {
         @CsvBindByPosition(position = 0) String date;
         @CsvBindByPosition(position = 1) String price;
     }
