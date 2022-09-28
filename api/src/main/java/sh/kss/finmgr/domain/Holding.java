@@ -20,6 +20,7 @@
 package sh.kss.finmgr.domain;
 
 import lombok.Builder;
+import org.javamoney.moneta.Money;
 
 import java.math.BigDecimal;
 
@@ -27,4 +28,4 @@ import java.math.BigDecimal;
 public record Holding(
         Symbol symbol,
         BigDecimal quantity,
-        BigDecimal averageCost) {}
+        Money averageCost) {}

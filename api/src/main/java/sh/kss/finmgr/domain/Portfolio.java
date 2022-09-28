@@ -20,12 +20,14 @@
 package sh.kss.finmgr.domain;
 
 import lombok.Builder;
+import org.javamoney.moneta.Money;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 @Builder
 public record Portfolio(
     Map<Account, Collection<Holding>> holdings,
-    Cash cash
+    List<Money> cashList
 ) {}

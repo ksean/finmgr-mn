@@ -35,6 +35,6 @@ public interface FxFixingRepository
 
     Optional<FxFixing> findByCurrencyPairAndDate(String currencyPair, Instant date);
 
-    @Query("SELECT * FROM fx_fixing sf WHERE sf.currencyPair = :currencyPair AND sf.date <= :date ORDER BY sf.date DESC LIMIT 1")
+    @Query("SELECT * FROM fx_fixing fx WHERE fx.currency_pair = :currencyPair AND fx.date <= :date ORDER BY fx.date DESC LIMIT 1")
     Optional<FxFixing> findNearestQuote(String currencyPair, Instant date);
 }

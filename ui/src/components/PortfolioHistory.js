@@ -45,10 +45,18 @@ export default function PortfolioHistory() {
                     response.json().then (data => {
                         const formattedData = []
                         data.forEach(d => {
-                            formattedData.push({
-                                date: formatDate(d.date),
-                                amount: d.totalAmount
-                            })
+                            const date = formatDate(d.date)
+                            if (formattedData.filter(fd => fd.date === date).length > 0) {
+                                formattedData.filter(fd => fd.date === date)
+                                    .map(fd => {
+                                        return { ...fd, amount: fd.amount + d.totalAmount }
+                                    })
+                            } else {
+                                formattedData.push({
+                                    date: formatDate(d.date),
+                                    amount: d.totalAmount
+                                })
+                            }
                         })
                         setData(formattedData)
                         setIsLoading(false)

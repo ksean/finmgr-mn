@@ -19,20 +19,20 @@
  */
 package sh.kss.finmgr.service.impl;
 
-
 import jakarta.inject.Singleton;
 import lombok.AllArgsConstructor;
+import org.javamoney.moneta.Money;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sh.kss.finmgr.domain.*;
 import sh.kss.finmgr.persistence.DailyReportRepository;
 import sh.kss.finmgr.service.DailyReportService;
 import sh.kss.finmgr.service.FxFixingService;
-import sh.kss.finmgr.service.SymbolFixingService;
 import sh.kss.finmgr.service.InvestmentTransactionService;
+import sh.kss.finmgr.service.SymbolFixingService;
 
+import javax.money.Monetary;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -114,19 +114,20 @@ public class DailyReportServiceImpl implements DailyReportService {
                                 }
                                 Optional<Holding> symbolHolding = accountHoldings.stream()
                                         .filter(h -> h.symbol() == symbol)
+                                        .filter(h -> h.averageCost().getCurrency().getCurrencyCode().equals(transaction.currency().name()))
                                         .findFirst();
                                 Holding newHolding;
                                 if (symbolHolding.isPresent()) {
                                     Holding holding = symbolHolding.get();
                                     accountHoldings.remove(holding);
-                                    BigDecimal totalCost = holding.quantity().multiply(holding.averageCost());
-                                    totalCost = totalCost.add(transaction.net());
+                                    Money totalCost = Money.of(holding.quantity().multiply(holding.averageCost().getNumberStripped()), holding.averageCost().getCurrency());
+                                    totalCost = totalCost.add(Money.of(transaction.net(), Monetary.getCurrency(transaction.currency().name())));
                                     BigDecimal totalQuantity = holding.quantity().add(transaction.quantity());
                                     if (totalQuantity.compareTo(ZERO) > 0) {
                                         newHolding = Holding.builder()
                                                 .symbol(symbol)
                                                 .quantity(totalQuantity)
-                                                .averageCost(totalCost.divide(totalQuantity, 8, RoundingMode.HALF_UP))
+                                                .averageCost(totalCost.divide(totalQuantity))
                                                 .build();
                                         accountHoldings.add(newHolding);
                                     }
@@ -134,7 +135,7 @@ public class DailyReportServiceImpl implements DailyReportService {
                                     newHolding = Holding.builder()
                                             .symbol(symbol)
                                             .quantity(transaction.quantity())
-                                            .averageCost(transaction.net().divide(transaction.quantity(), 8, RoundingMode.HALF_UP))
+                                            .averageCost(Money.of(transaction.net(), Monetary.getCurrency(transaction.currency().name())).divide(transaction.quantity()))
                                             .build();
                                     accountHoldings.add(newHolding);
                                 }
@@ -185,6 +186,15 @@ public class DailyReportServiceImpl implements DailyReportService {
                             .orElse(new SymbolFixing(null, holding.symbol().value(), date, ZERO))
                             .amount();
             BigDecimal holdingValue = holding.quantity().multiply(fixingValue);
+
+            // FX Conversion to main currency
+            if (holding.averageCost().getCurrency().getCurrencyCode().equals("USD")) {
+                Optional<FxFixing> fxFixing = fxFixingService.findNearest(new FxFixingKey(CurrencyPair.USDCAD, date));
+                if (fxFixing.isPresent()) {
+                    holdingValue = holdingValue.multiply(fxFixing.get().amount());
+                }
+            }
+
             totalValue = totalValue.add(holdingValue);
         }
 
